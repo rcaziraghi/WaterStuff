@@ -1,16 +1,19 @@
 module.exports = (sequelize, Sequelize) => {
-    const Role = sequelize.define("cargo", {
+    const Cargo = sequelize.define("cargo", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        primaryKey: true
       },
       nome: {
         type: Sequelize.STRING,
         allowNull: false
       }
     },
-    { tableName: 'cargo' });
-  
+    { 
+      tableName: 'cargo' ,
+      timestamps: false
+    });
     return Cargo;
   };

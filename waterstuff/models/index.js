@@ -33,12 +33,12 @@ db.cargo.belongsToMany(db.usuario, {
   foreignKey: "idcargo",
   otherKey: "idusuario"
 });
+
 db.usuario.belongsToMany(db.cargo, {
   through: "usuario_cargo",
   foreignKey: "idusuario",
   otherKey: "idcargo"
 });
 
-db.cargos = ["usuario", "admin", "moderador"];
-
 module.exports = db;
+
