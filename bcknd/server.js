@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const db = require("./bcknd/models");
+const db = require("./src/models");
 
 db.sequelize.sync();
 
@@ -31,10 +31,10 @@ app.get("/", (req, res) => {
 });
 
 // rota de autenticação
-require('./bcknd/routes/auth.routes')(app);
+require('./src/routes/auth.routes')(app);
 
 // rota de usuario
-require('./bcknd/routes/usuario.routes')(app);
+require('./src/routes/usuario.routes')(app);
 
 // configura portas, aguarda requests
 const PORT = process.env.PORT || 8080;
