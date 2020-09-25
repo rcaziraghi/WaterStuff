@@ -10,10 +10,10 @@ module.exports = function(app) {
     next();
   });
 
-  app.get("/api/test/all", controller.telaPublica);
+  app.get("/api/test/publico", controller.telaPublica);
 
   app.get(
-    "/api/test/user",
+    "/api/test/usuario",
     [authJwt.verificaToken],
     controller.telaDeUsuario
   );

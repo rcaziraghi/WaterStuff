@@ -1,5 +1,5 @@
-const { usuario, todosCargos } = require("../../waterstuff/models");
-const db = require("../../waterstuff/models");
+const { usuario, todosCargos } = require("../models");
+const db = require("../models");
 const Cargo = db.cargo;
 const Usuario = db.usuario;
 

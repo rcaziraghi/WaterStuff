@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
-const { usuario, cargos, cargo } = require("../../waterstuff/models");
-const db = require("../../waterstuff/models");
+const { usuario, cargos, cargo } = require("../models");
+const db = require("../models");
 const Usuario = db.usuario;
 
 verificaToken = (req, res, next) => {
