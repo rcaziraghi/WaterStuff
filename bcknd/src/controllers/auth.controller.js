@@ -8,12 +8,14 @@ const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
-exports.signup = (req, res) => {
+
+// Função para registro
+registrar = (req, res) => {
   // Salvar usuario no BD
   Usuario.create({
-    email: req.body.email,
-    senha: bcrypt.hashSync(req.body.senha, 8)
-  })
+      email: req.body.email,
+      senha: bcrypt.hashSync(req.body.senha, 8)
+    })
     .then(usuario => {
       if (req.body.cargos) {
         Cargo.findAll({
@@ -24,31 +26,39 @@ exports.signup = (req, res) => {
           }
         }).then(cargos => {
           usuario.setCargos(cargos).then(() => {
-            res.send({ message: "Usuario registrado com sucesso!" });
+            res.send({
+              message: "Usuario registrado com sucesso!"
+            });
           });
         });
       } else {
         // usuario/cargo = 1
         usuario.setCargos([1]).then(() => {
-          res.send({ message: "Usuario regostrado com sucesso!" });
+          res.send({
+            message: "Usuario regostrado com sucesso!"
+          });
         });
       }
     })
     .catch(err => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send({
+        message: err.message
+      });
     });
 };
 
-exports.signin = (req, res) => {
+login = (req, res) => {
   Usuario.findOne({
-    where: {
-      email: req.body.email
-    }
-  })
+      where: {
+        email: req.body.email
+      }
+    })
     .then(usuario => {
-    console.log(usuario);
+      console.log(usuario);
       if (!usuario) {
-        return res.status(404).send({ message: "Usuario não encontrado." });
+        return res.status(404).send({
+          message: "Usuario não encontrado."
+        });
       }
 
       var senhaValida = bcrypt.compareSync(
@@ -63,7 +73,9 @@ exports.signin = (req, res) => {
         });
       }
 
-      var token = jwt.sign({ id: usuario.id }, config.secret, {
+      var token = jwt.sign({
+        id: usuario.id
+      }, config.secret, {
         expiresIn: 86400 // 24 horas
       });
 
@@ -82,6 +94,33 @@ exports.signin = (req, res) => {
       });
     })
     .catch(err => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send({
+        message: err.message
+      });
     });
 };
+
+recuperarSenha = (req, res) => {
+  Usuario.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    .then(usuario => {
+      console.log(usuario);
+      if (!usuario) {
+        return res.status(404).send({
+          message: "Email não cadastrado."
+        });
+      }
+      
+
+    });
+};
+
+const auth = {
+  registrar: registrar,
+  login: login
+}
+
+module.exports = auth;

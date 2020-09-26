@@ -1,9 +1,15 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
-const { usuario, cargos, cargo } = require("../models");
+const {
+  usuario,
+  cargos,
+  cargo
+} = require("../models");
 const db = require("../models");
 const Usuario = db.usuario;
 
+
+// Verifica o token de autenticacao
 verificaToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
@@ -24,6 +30,7 @@ verificaToken = (req, res, next) => {
   });
 };
 
+// Verifica se o usuário é admin
 ehAdmin = (req, res, next) => {
   Usuario.findByPk(req.userId).then(usuario => {
     usuario.getCargos().then(cargos => {
@@ -41,6 +48,7 @@ ehAdmin = (req, res, next) => {
   });
 };
 
+// Verifica se o usuario é moderador
 ehModerador = (req, res, next) => {
   Usuario.findByPk(req.userId).then(usuario => {
     usuario.getCargos().then(cargos => {
@@ -57,6 +65,7 @@ ehModerador = (req, res, next) => {
   });
 };
 
+// Verifica se o usuario é admin ou moderador
 ehModeradorOuAdmin = (req, res, next) => {
   Usuario.findByPk(req.userId).then(usuario => {
     usuario.getCargos().then(cargos => {
@@ -77,10 +86,31 @@ ehModeradorOuAdmin = (req, res, next) => {
   });
 };
 
+// Verifica se o email está no BD
+registradoEmail = (req, res, next) => {
+  Usuario.findOnde({
+      where: {
+        email: req.email
+      }
+    })
+    .then((usuario) => {
+      if (usuario) {
+        next();
+        return;
+      } else {
+        res.status(403).send({
+          message: "Email não registrado."
+        });
+        return;
+      }
+    });
+};
+
 const authJwt = {
   verificaToken: verificaToken,
   ehAdmin: ehAdmin,
   ehModerador: ehModerador,
-  ehModeradorOuAdmin: ehModeradorOuAdmin
+  ehModeradorOuAdmin: ehModeradorOuAdmin,
+  registradoEmail: registradoEmail
 };
 module.exports = authJwt;

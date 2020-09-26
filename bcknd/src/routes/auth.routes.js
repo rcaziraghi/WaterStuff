@@ -1,4 +1,4 @@
-const { verificaSignUp } = require("../middlewares");
+const { verificarRegistrar } = require("../middlewares");
 const controller = require("../controllers/auth.controller");
 
 module.exports = function(app) {
@@ -11,15 +11,15 @@ module.exports = function(app) {
   });
 
   app.post(
-    "/api/auth/signup",
+    "/api/auth/registrar",
     [
-      verificaSignUp.verificaEmailDup,
-      verificaSignUp.verificaCargoExiste
+      verificarRegistrar.verificarEmailDup,
+      verificarRegistrar.verificarCargoExiste
     ],
-    controller.signup
+    controller.registrar
   );
 
-  app.post("/api/auth/signin", controller.signin);
+  app.post("/api/auth/login", controller.login);
 
   
 

@@ -3,7 +3,7 @@ const db = require("../models");
 const Cargo = db.cargo;
 const Usuario = db.usuario;
 
-verificaEmailDup = (req, res, next) => {
+verificarEmailDup = (req, res, next) => {
     // Email
     Usuario.findOne({
       where: {
@@ -20,7 +20,7 @@ verificaEmailDup = (req, res, next) => {
     });
 };
 
-verificaCargoExiste = (req, res, next) => {
+verificarCargoExiste = (req, res, next) => {
   if (req.body.cargos) {
     Cargo.findAll({
       attributes : [ 'nome' ],
@@ -41,9 +41,9 @@ verificaCargoExiste = (req, res, next) => {
   next();
 };
 
-const verificaSignUp = {
-    verificaEmailDup: verificaEmailDup,
-    verificaCargoExiste: verificaCargoExiste
+const verificarRegistrar = {
+    verificarEmailDup: verificarEmailDup,
+    verificarCargoExiste: verificarCargoExiste
 };
 
-module.exports = verificaSignUp;
+module.exports = verificarRegistrar;
