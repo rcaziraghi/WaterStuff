@@ -88,4 +88,17 @@ import {
         type: LOGOUT,
     });
   };
+
+  export const recuperarSenha = (email) => {
+    // return Promise.resolve();
+    console.log(email);
+    // return new Promise((email) => {
+        if(email.length > 0) {
+          return "Verifique seu email!";
+      } else {
+        // return Promise.reject();
+      }
+      // });
+
+  };
   

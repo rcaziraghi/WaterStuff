@@ -12,6 +12,7 @@ import Perfil from "./components/Perfil";
 import TelaUsuario from "./components/TelaUsuario";
 import TelaMod from "./components/TelaMod";
 import TelaAdmin from "./components/TelaAdmin";
+import RecuperarSenha from "./components/RecuperarSenha";
 
 import { logout } from "./actions/auth";
 import { limparMensagem } from "./actions/mensagem";
@@ -55,8 +56,8 @@ const App = () => {
 
   useEffect(() => {
     if (usuarioAtual) {
-      setMostrarTelaMod(usuarioAtual.cargos.includes("ROLE_MODERADOR"));
-      setMostrarTelaAdmin(usuarioAtual.cargos.includes("ROLE_ADMIN"));
+      setMostrarTelaMod(usuarioAtual.cargos.includes("CARGO_MODERADOR"));
+      setMostrarTelaAdmin(usuarioAtual.cargos.includes("CARGO_ADMIN"));
     }
   }, [usuarioAtual]);
 
@@ -81,7 +82,7 @@ const App = () => {
             {mostrarTelaMod && (
               <li className="nav-item">
                 <Link to={"/mod"} className="nav-link">
-                  Moderador
+                  Moderação
                 </Link>
               </li>
             )}
@@ -89,7 +90,7 @@ const App = () => {
             {mostrarTelaAdmin && (
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
-                  Admin
+                  Administração
                 </Link>
               </li>
             )}
@@ -97,7 +98,7 @@ const App = () => {
             {usuarioAtual && (
               <li className="nav-item">
                 <Link to={"/usuario"} className="nav-link">
-                  Usuário
+                  Seus serviços
                 </Link>
               </li>
             )}
@@ -139,6 +140,7 @@ const App = () => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/registrar" component={Registrar} />
             <Route exact path="/perfil" component={Perfil} />
+            <Route exact path="/recuperar/senha" component={RecuperarSenha} />
             <Route path="/usuario" component={TelaUsuario} />
             <Route path="/mod" component={TelaMod} />
             <Route path="/admin" component={TelaAdmin} />

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -54,6 +54,8 @@ const Login = (props) => {
   };
 
   const handleLogin = (e) => {
+    // Evita comportamento default do navegador
+    // ex. refresh/reload  por causa do submit do formulário
     e.preventDefault();
 
     setLoading(true);
@@ -92,6 +94,7 @@ const Login = (props) => {
         />
 
         <Form onSubmit={handleLogin} ref={form}>
+        {/* <form onSubmit={handleLogin}> */}
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <Input
@@ -116,6 +119,10 @@ const Login = (props) => {
             />
           </div>
 
+          <Link to={"/recuperar/senha"} className="form-group">
+          Esqueceu sua senha?
+          </Link>
+
           <div className="form-group">
             <button className="btn btn-primary btn-block" disabled={loading}>
               {loading && (
@@ -133,6 +140,7 @@ const Login = (props) => {
             </div>
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
+        {/* </form> */}
         </Form>
       </div>
     </div>

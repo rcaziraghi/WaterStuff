@@ -10,22 +10,22 @@ module.exports = function(app) {
     next();
   });
 
-  app.get("/api/test/publico", controller.telaPublica);
+  app.get("/api/pagina/publico", controller.telaPublica);
 
   app.get(
-    "/api/test/usuario",
+    "/api/pagina/usuario",
     [authJwt.verificaToken],
     controller.telaDeUsuario
   );
 
   app.get(
-    "/api/test/mod",
+    "/api/pagina/mod",
     [authJwt.verificaToken, authJwt.ehModerador],
     controller.telaDeModerador
   );
 
   app.get(
-    "/api/test/admin",
+    "/api/pagina/admin",
     [authJwt.verificaToken, authJwt.ehAdmin],
     controller.telaDeAdmin
   );

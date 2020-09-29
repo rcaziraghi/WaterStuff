@@ -63,7 +63,7 @@ const Registrar = (props) => {
     setSenha(senha);
   };
 
-  const handleRegister = (e) => {
+  const handleRegistrar = (e) => {
     e.preventDefault();
 
     setSucesso(false);
@@ -105,7 +105,7 @@ const Registrar = (props) => {
           className="profile-img-card"
         />
 
-        <Form onSubmit={handleRegister} ref={form}>
+        <Form onSubmit={handleRegistrar} ref={form}>
           {!sucesso && (
             <div>
               <div className="form-group">
