@@ -1,111 +1,7 @@
-import React, { useState, useRef, Component } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-
-// import Form from "react-validation/build/form";
-// import Input from "react-validation/build/input";
-// import CheckButton from "react-validation/build/button";
+import React, { Component } from "react";
 import { isEmail } from "validator";
 
 import { recuperarSenha } from "../actions/auth";
-
-// valida campo requerido
-// const validarRequerido = (value) => {
-    // if (!value) {
-    //   return (
-    //     <div className="alert alert-danger" role="alert">
-    //       Este campo é requerido!
-    //     </div>
-    //   );
-    // }
-//   };
-  
-  // valida o email
-//   const validarEmail = (value) => {
-    // if (!isEmail(value)) {
-    //   return false;
-    //   (
-    //     <div className="alert alert-danger" role="alert">
-    //       Este email não é válido.
-    //     </div>
-    //   );
-    // };
-//   };
-
-// const RecuperarSenha = () => {
-//     const form = useRef();
-//     const checkBtn = useRef();
-
-//     const [email, setEmail] = useState("");
-//     const [sucesso, setSucesso] = useState(false);
-
-//     const { mensagem } = useSelector(state => state.mensagem);
-
-//     const dispatch = useDispatch();
-
-//     const aoMudarEmail = (e) => {
-//         const email = e.target.value;
-//         setEmail(email);
-//       };
-
-//     const handleRecuperarSenha = (e) => {
-//         // Evita comportamento default do navegador
-//         // ex. refresh/reload  por causa do submit do formulário
-//         e.preventDefault();
-
-//         form.current.validateAll();
-
-//         if(checkBtn.current.context._errors.lenght === 0) {
-//             dispatch(recuperarSenha(email))
-//             .then( () => {
-//                 setSucesso(true);
-//                 console.log('Email encontrado e recuperação de senha enviada.');
-//             });
-//         }
-
-//     };
-
-//     return (
-//         <div className="col-md-12">
-//           <div className="card card-container">
-
-//             <Form onSubmit={handleRecuperarSenha} ref={form}>
-//               {!sucesso && (
-//                 <div>
-//                   <div className="form-group">
-//                     <label htmlFor="email">Email</label>
-//                     <Input
-//                       type="text"
-//                       className="form-control"
-//                       name="email"
-//                       value={email}
-//                       onChange={aoMudarEmail}
-//                       validations={[validarRequerido, validarEmail]}
-//                     />
-//                   </div>
-    
-//                   <div className="form-group">
-//                     <button className="btn btn-primary btn-block">Recuperar senha</button>
-//                   </div>
-//                 </div>
-//               )}
-    
-//               {mensagem && (
-//                 <div className="form-group">
-//                   <div className={ sucesso ? "alert alert-success" : "alert alert-danger" } role="alert">
-//                     {mensagem}
-//                   </div>
-//                 </div>
-//               )}
-//               <CheckButton style={{ display: "none" }} ref={checkBtn} />
-//             </Form>
-//           </div>
-//         </div>
-//       );
-// };
-
-// export default RecuperarSenha;
-
-// -------------------------------------------------------------
 
 const validarFormulario = ({ erro }) => {
     let ehValido = false;
@@ -117,14 +13,6 @@ const validarFormulario = ({ erro }) => {
             ehValido = true
         }
     });
-
-    // Object.values(rest).forEach(val => {
-    //     if (val === null) {
-    //         isValid = false
-    //     } else {
-    //         isValid = true
-    //     }
-    // });
 
     return ehValido;
 };
@@ -146,7 +34,6 @@ export default class RecuperarSenha extends Component {
             }
         };
 
-        // this.dispatch = useDispatch();
     };
 
     aoMudarEmail = (e) => {
@@ -235,10 +122,12 @@ export default class RecuperarSenha extends Component {
                        <div className="form-group">
                          <button className="btn btn-primary btn-block"
                             disabled={this.state.carregando} >
-                            {this.state.carregando = false && (
-                                <span className="spinner-border spinner-border-sm"></span>
-                            )}
-                             Recuperar senha
+                            {
+                            !this.state.carregando ? 
+                            <span className="spinner-border spinner-border-sm"></span>
+                            :
+                             "Recuperar senha"
+                            }
                          </button>
                        </div>
 
@@ -249,5 +138,3 @@ export default class RecuperarSenha extends Component {
         )
     }
 }
-
-// -------------------------------------------

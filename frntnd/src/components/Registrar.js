@@ -1,12 +1,19 @@
-import React, { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Component } from "react";
+// import { useDispatch, useSelector } from "react-redux";
 
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+// import Form from "react-validation/build/form";
+// import Input from "react-validation/build/input";
+// import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
-import { registrar, login } from "../actions/auth";
+// import { registrar, login } from "../actions/auth";
+
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker, { registerLocale } from "react-datepicker";
+import pt from "date-fns/locale/pt";
+import moment from 'moment';
+
+registerLocale("pt", pt);
 
 // valida campo requerido
 const validarRequerido = (value) => {
@@ -41,115 +48,207 @@ const validarTamanhoSenha = (value) => {
   }
 };
 
-const Registrar = (props) => {
-  const form = useRef();
-  const checkBtn = useRef();
+const validarFormulario = ({ erro }) => {
+  let ehValido = false;
 
-//   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [sucesso, setSucesso] = useState(false);
+  Object.values(erro).forEach(val => {
+      if (val.length > 0) {
+          ehValido = false
+      } else {
+          ehValido = true
+      }
+  });
 
-  const { mensagem } = useSelector(state => state.mensagem);
-  const dispatch = useDispatch();
+  return ehValido;
+};
 
-  const aoMudarEmail = (e) => {
-    const email = e.target.value;
-    setEmail(email);
-  };
+export default class Registrar extends Component {
 
-  const aoMudarSenha = (e) => {
-    const senha = e.target.value;
-    setSenha(senha);
-  };
+  constructor(props) {
 
-  const handleRegistrar = (e) => {
-    e.preventDefault();
+    super(props);
 
-    setSucesso(false);
+    this.state = {
+        carregando: false,
+        nomeCompleto: '',
+        email: '',
+        senha: '',
+        dtNascimento: new Date(moment().subtract(16, 'years')),
+        cidade: '',
+        estado: '',
+        concordo: false,
+        erro: {
+          nomeCompleto: '',
+          email: '',
+          senha: '',
+          dtNascimento: '',
+          cidade: '',
+          estado: '',
+        },
+        sucesso: {
+          nomeCompleto: '',
+          email: '',
+          senha: '',
+          dtNascimento: '',
+          cidade: '',
+          estado: '',
+        }
+    };
 
-    form.current.validateAll();
+    this.handleModData = this.handleModData.bind(this);
+};
 
-    if (checkBtn.current.context._errors.length === 0) {
-      dispatch(registrar(email, senha))
-        .then(() => {
-            // seta sucesso caso registre
-          setSucesso(true);
-          console.log("Registrado com sucesso!")
-          })
-          .then(() => {
-          dispatch(login(email, senha))
-          .then(() => {
-            console.log('Sucesso login!');
-            props.history.push("/perfil");
-            window.location.reload();
-          })
-          .catch(() => {
-            console.log('Erro login!', mensagem);
-          });
-        })
-            // seta sucesso caso erro
-        .catch(() => {
-          setSucesso(false);
-          console.log("Erro ao registrar!");
+handleModData(data) {
+  this.setState({
+    dtNascimento: data
+  });
+}
+
+aoMudarInput = (e) => {
+  e.preventDefault();
+  const nomeCampo = e.target.name;
+  const valorCampo = e.target.value;
+  let Erro = { ...this.state.erro };
+
+  switch (nomeCampo) {
+    case 'nomeCompleto':
+      console.log(nomeCampo,valorCampo);
+    case 'email':
+      console.log(nomeCampo,valorCampo);
+    case 'senha':
+      console.log(nomeCampo,valorCampo);
+    case 'confSenha':
+      console.log(nomeCampo,valorCampo);
+    case 'dtNascimento':
+      console.log(nomeCampo,valorCampo);
+  }
+
+}
+
+handleRegistrar = (e) => {
+  e.preventDefault();
+        this.setState({
+            carregando: true
         });
-    }
-  };
+  if(validarFormulario(this.state)) {
+    console.log('Estado valido:', this.state);
+  } else {
+    console.log('Estado INvalido:', this.state);
+  }
+}
 
-  return (
-    <div className="col-md-12">
-      <div className="card card-container">
+  render () {
+    const { erro } = this.state;
+
+    return (
+      <div className="col-md-12">
+      <div className="card cardRegistrar-container">
         <img
           src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
           alt="profile-img"
           className="profile-img-card"
         />
 
-        <Form onSubmit={handleRegistrar} ref={form}>
-          {!sucesso && (
-            <div>
+        <form onSubmit={this.handleRegistrar} noValidate>
+
+              <div className="form-group">
+                <label htmlFor="email">Nome completo</label>
+                <input
+                  type="text"
+                  className={erro.nomeCompleto.length > 0 ? "is-invalid form-control" : "form-control"}
+                  name="nomeCompleto"
+                  value={this.state.nomeCompleto}
+                  onChange={this.aoMudarInput}
+                />
+              </div>
+
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <Input
+                <input
                   type="text"
                   className="form-control"
                   name="email"
-                  value={email}
-                  onChange={aoMudarEmail}
-                  validations={[validarRequerido, validarEmail]}
+                  value={this.state.email}
+                  onChange={this.aoMudarInput}
                 />
               </div>
 
               <div className="form-group">
                 <label htmlFor="password">Senha</label>
-                <Input
+                <input
                   type="password"
                   className="form-control"
                   name="senha"
-                  value={senha}
-                  onChange={aoMudarSenha}
-                  validations={[validarRequerido, validarTamanhoSenha]}
+                  value={this.state.senha}
+                  onChange={this.aoMudarInput}
                 />
               </div>
 
               <div className="form-group">
-                <button className="btn btn-primary btn-block">Registrar</button>
+                <label htmlFor="password">Confirmar senha</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  name="confSenha"
+                  value={this.state.confSenha}
+                  onChange={this.aoMudarInput}
+                />
               </div>
-            </div>
-          )}
 
-          {mensagem && (
-            <div className="form-group">
-              <div className={ sucesso ? "alert alert-success" : "alert alert-danger" } role="alert">
-                {mensagem}
+              <div className="form-group">
+              <label htmlFor="dtNascimento">
+                Data de nascimento:
+              </label>
+              <DatePicker
+                className="form-control"
+                name="dtNascimento"
+                dateFormat="dd/MM/yyyy"
+                selected={this.state.dtNascimento}
+                locale="pt"
+                openToDate={new Date(moment().subtract(16, 'years'))}
+                onChange={this.handleModData}
+              />
               </div>
-            </div>
-          )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
+
+                <div className="form-group">
+                  <label htmlFor="cidade">Cidade:</label>
+                  <input type="text" className="form-control" id="inputCity" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="estado">Estado:</label>
+                  <select id="inputState" className="form-control">
+                    <option>Escolha...</option>
+                    <option>...</option>
+                  </select>
+                </div>
+
+              <div className="form-group">
+                <input
+                  className="form-group"
+                  id="concordo"
+                  // class="form-check-input"
+                  name="concordo"
+                  type="checkbox"
+                  checked={this.state.concordo}
+                  onChange={this.aoMudarInput} />
+                  &nbsp; Concordo com os termos de uso e serviço.
+              </div>
+
+              <div className="form-group">
+                <button className="btn btn-primary btn-block"
+                  disabled={this.state.carregando} >
+                    {
+                      this.state.carregando ? 
+                      <span className="spinner-border spinner-border-sm"></span>
+                      :
+                      "Cadastrar"
+                    }
+                </button>
+              </div>
+
+        </form>
       </div>
     </div>
-  );
+    );
+  }
 };
-
-export default Registrar;
