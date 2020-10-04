@@ -123,7 +123,7 @@ export default class RecuperarSenha extends Component {
                          <button className="btn btn-primary btn-block"
                             disabled={this.state.carregando} >
                             {
-                            !this.state.carregando ? 
+                            this.state.carregando ? 
                             <span className="spinner-border spinner-border-sm"></span>
                             :
                              "Recuperar senha"

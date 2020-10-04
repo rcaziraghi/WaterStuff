@@ -94,7 +94,6 @@ const Login = (props) => {
         />
 
         <Form onSubmit={handleLogin} ref={form}>
-        {/* <form onSubmit={handleLogin}> */}
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <Input
@@ -140,7 +139,6 @@ const Login = (props) => {
             </div>
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        {/* </form> */}
         </Form>
       </div>
     </div>

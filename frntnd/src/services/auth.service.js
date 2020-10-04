@@ -2,10 +2,16 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/auth/";
 
-const registrar = (email, senha) => {
+const registrar = (dados) => {
+  console.log("chegou registrar");
+  console.log(dados);
   return axios.post(API_URL + "registrar", {
-    email,
-    senha,
+    email: dados.email,
+    nomeCompleto: dados.nomeCompleto,
+    senha: dados.senha,
+    dtNascimento: dados.dtNascimento,
+    cidade: dados.cidade,
+    siglaEstado: dados.estado
   });
 };
 

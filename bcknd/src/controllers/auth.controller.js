@@ -14,7 +14,11 @@ registrar = (req, res) => {
   // Salvar usuario no BD
   Usuario.create({
       email: req.body.email,
-      senha: bcrypt.hashSync(req.body.senha, 8)
+      nomeCompleto: req.body.nomeCompleto,
+      senha: bcrypt.hashSync(req.body.senha, 8),
+      dtNascimento: req.body.dtNascimento,
+      cidade: req.body.cidade,
+      siglaEstado: req.body.siglaEstado
     })
     .then(usuario => {
       if (req.body.cargos) {
