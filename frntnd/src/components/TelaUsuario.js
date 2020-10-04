@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { Link } from 'react-router-dom';
 import servicoUsuario from "../services/usuario.service";
 
 const TelaUsuario = () => {
@@ -27,6 +27,16 @@ const TelaUsuario = () => {
     <div className="container">
       <header className="jumbotron">
         <h3>{conteudo}</h3>
+        <li>
+        <Link to={"/instalacao/cadastro"} className="form-group">
+          Cadastrar instalação de água
+        </Link>
+        </li>
+        <li>
+        <Link to={"/instalacao/lista"} className="form-group">
+          Lista de instalação de água
+        </Link>
+        </li>
       </header>
     </div>
   );
