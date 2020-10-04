@@ -1,13 +1,18 @@
+const crypto = require("crypto");
 const db = require("../models");
 const config = require("../config/auth.config");
 const Usuario = db.usuario;
 const Cargo = db.cargo;
 
+require('dotenv').config();
+
 const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+const { userInfo } = require("os");
 
+const nodemailer = require('nodemailer');
 
 // Função para registro
 registrar = (req, res) => {
@@ -113,9 +118,46 @@ recuperarSenha = (req, res) => {
     .then(usuario => {
       console.log(usuario);
       if (!usuario) {
-        return res.status(404).send({
+        return res.status(403).send({
           message: "Email não cadastrado."
         });
+      } else {
+        // Cria nova senha
+        const novaSenha = crypto.randomBytes(10).toString('hex');
+        // Atualiza senha
+        usuario.update({
+          senha: bcrypt.hashSync(novaSenha, 8)
+        });
+
+        // Envia por email senha nova
+        const transporte = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: `${process.env.ENDERECO_EMAIL}`,
+            pass: `${process.env.SENHA_EMAIL}`,
+          }
+        });
+
+        const opcoesEmail = {
+          from: 'naoresponda@waterstuff.com.br',
+          to: `${usuario.email}`,
+          subject: 'Nova senha',
+          text: 
+            "Esta é a sua nova senha para acessar o sistema: " + `${novaSenha}`
+        };
+
+        console.log('Enviado email');
+
+        transporte.sendMail(opcoesEmail, (erro, resposta) => {
+          if(erro){
+            console.log('Erro ao enviar o email!');
+          } else {
+            console.log('Resposta: ', resposta);
+            res.status(200).send({
+              message: "Verifique o seu email!"
+            });
+          }
+        })
       }
       
 
@@ -124,7 +166,8 @@ recuperarSenha = (req, res) => {
 
 const auth = {
   registrar: registrar,
-  login: login
+  login: login,
+  recuperarSenha: recuperarSenha
 }
 
 module.exports = auth;

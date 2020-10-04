@@ -41,6 +41,7 @@ verificarCargoExiste = (req, res, next) => {
   next();
 };
 
+
 const verificarRegistrar = {
     verificarEmailDup: verificarEmailDup,
     verificarCargoExiste: verificarCargoExiste

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { isEmail } from "validator";
 
-import { recuperarSenha } from "../actions/auth";
+// import { recuperarSenha } from "../actions/auth";
+import AuthService from "../services/auth.service";
 
 const validarFormulario = ({ erro }) => {
     let ehValido = false;
@@ -63,16 +64,35 @@ export default class RecuperarSenha extends Component {
 
         if(validarFormulario(this.state)) {
             console.log("Valido",this.state);
-            // recuperarSenha(this.state.email)
-            // .then( (resposta) => {
+            AuthService.recuperarSenha(this.state.email)
+            .then( response => {
+                console.log("response", response)
                 this.setState({
                     carregando: false,
                     sucesso: {
-                        email: recuperarSenha(this.state.email)
+                        email: response.message
                     }
                 });
                 console.log('Email encontrado e recuperação de senha enviada.');
                 console.log("State",this.state);
+            })
+            .catch( error => {
+                const resMessage =
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                error.message ||
+                error.toString();
+
+                this.setState({
+                    carregando: false,
+                    erro: {
+                        email: resMessage
+                    }
+                });
+                console.log('Erro!',resMessage);
+                console.log("State",this.state);
+            })
             // });            
         } else {
             console.log("Invalido",this.state);
@@ -84,7 +104,7 @@ export default class RecuperarSenha extends Component {
 
     render() {
     
-        const { erro } = this.state;
+        const { erro, sucesso } = this.state;
 
         return (
                 <div className="col-md-12">
@@ -111,10 +131,10 @@ export default class RecuperarSenha extends Component {
                         </div>
                         )}
 
-                        {this.state.sucesso.email.length > 0 && (
+                        {sucesso.email.length > 0 && (
                        <div className="form-group">
                             <div className="alert alert-primary" role="alert">
-                            {this.state.sucesso.email}
+                            {sucesso.email}
                             </div>
                         </div>
                         )}

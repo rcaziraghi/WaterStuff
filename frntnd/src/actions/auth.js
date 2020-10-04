@@ -7,6 +7,7 @@ import {
     FALHA_LOGIN,
     LOGOUT,
     SETAR_MENSAGEM,
+    SENHA_RECUPERADA
   } from "./tipo";
   
   import AuthService from "../services/auth.service";
@@ -89,16 +90,33 @@ import {
     });
   };
 
-  export const recuperarSenha = (email) => {
-    // return Promise.resolve();
-    console.log(email);
-    // return new Promise((email) => {
-        if(email.length > 0) {
-          return "Verifique seu email!";
-      } else {
-        // return Promise.reject();
+  export const recuperarSenha = (email) => (dispatch) => {
+    return AuthService.login(email).then(
+      (data) => {
+        dispatch({
+          type: SENHA_RECUPERADA,
+          payload: data,
+        });
+  
+        return Promise.resolve();
+      },
+      (error) => {
+        const mensagem =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        
+          console.log('Erro:',mensagem);
+  
+        dispatch({
+            type: SETAR_MENSAGEM,
+            payload: mensagem,
+        });
+  
+        return Promise.reject();
       }
-      // });
-
+    );
   };
   

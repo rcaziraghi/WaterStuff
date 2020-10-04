@@ -1,4 +1,4 @@
-const { verificarRegistrar } = require("../middlewares");
+const { verificarRegistrar, verificarRecSenha } = require("../middlewares");
 const controller = require("../controllers/auth.controller");
 
 module.exports = function(app) {
@@ -21,6 +21,12 @@ module.exports = function(app) {
 
   app.post("/api/auth/login", controller.login);
 
-  
+  app.post(
+    "/api/auth/recuperar/senha",
+  [
+    verificarRecSenha.verificarEmailExiste
+  ],
+  controller.recuperarSenha
+  );
 
 };

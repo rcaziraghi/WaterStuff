@@ -3,13 +3,13 @@ exports.telaPublica = (req, res) => {
   };
   
   exports.telaDeUsuario = (req, res) => {
-    res.status(200).send("Acesso de usuário.");
+    res.status(200).send("Serviços de usuário:");
   };
   
   exports.telaDeAdmin = (req, res) => {
-    res.status(200).send("Acesso de admin.");
+    res.status(200).send("Serviços de admin.");
   };
   
   exports.telaDeModerador = (req, res) => {
-    res.status(200).send("Acesso de moderador.");
+    res.status(200).send("Serviços de moderador.");
   };

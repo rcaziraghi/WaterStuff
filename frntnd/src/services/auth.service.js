@@ -34,8 +34,19 @@ const logout = () => {
   localStorage.removeItem("usuario");
 };
 
+const recuperarSenha = (email) => {
+  console.log("chegou registrar");
+  console.log(email);
+  return axios.post(API_URL + "recuperar/senha", {
+    email
+  }).then((response) => {
+    return response.data;
+  });
+};
+
 export default {
   registrar,
   login,
   logout,
+  recuperarSenha
 };
