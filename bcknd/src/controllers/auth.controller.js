@@ -97,6 +97,9 @@ login = (req, res) => {
         res.status(200).send({
           id: usuario.id,
           email: usuario.email,
+          nomeCompleto: usuario.nomeCompleto,
+          cidade: usuario.cidade,
+          siglaEstado: usuario.siglaEstado,
           cargos: authorities,
           accessToken: token
         });

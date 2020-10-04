@@ -31,6 +31,24 @@ verificaToken = (req, res, next) => {
 };
 
 // Verifica se o usuário é admin
+ehUsuario = (req, res, next) => {
+  Usuario.findByPk(req.userId).then(usuario => {
+    usuario.getCargos().then(cargos => {
+      for (let i = 0; i < cargos.length; i++) {
+        if (cargos[i].nome === "usuario") {
+          next();
+          return;
+        }
+      }
+      res.status(403).send({
+        message: "Necessário ser usuario!"
+      });
+      return;
+    });
+  });
+};
+
+// Verifica se o usuário é admin
 ehAdmin = (req, res, next) => {
   Usuario.findByPk(req.userId).then(usuario => {
     usuario.getCargos().then(cargos => {
@@ -108,6 +126,7 @@ registradoEmail = (req, res, next) => {
 
 const authJwt = {
   verificaToken: verificaToken,
+  ehUsuario: ehUsuario,
   ehAdmin: ehAdmin,
   ehModerador: ehModerador,
   ehModeradorOuAdmin: ehModeradorOuAdmin,

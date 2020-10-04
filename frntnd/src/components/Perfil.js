@@ -14,15 +14,14 @@ const Perfil = () => {
     <div className="container">
       <header className="jumbotron">
         <h3>
-          Perfil id: <strong>{usuarioAtual.id}</strong>
+          Perfil de: <strong>{usuarioAtual.nomeCompleto}</strong>
         </h3>
       </header>
       <p>
-        <strong>Token:</strong> {usuarioAtual.accessToken.substring(0, 20)} ...{" "}
-        {usuarioAtual.accessToken.substr(usuarioAtual.accessToken.length - 20)}
+        <strong>Id:</strong> {usuarioAtual.id}
       </p>
       <p>
-        <strong>Id:</strong> {usuarioAtual.id}
+        <strong>Cidade/Estado:</strong> {usuarioAtual.cidade}/{usuarioAtual.siglaEstado}
       </p>
       <p>
         <strong>Email:</strong> {usuarioAtual.email}

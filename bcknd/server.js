@@ -36,6 +36,9 @@ require('./src/routes/auth.routes')(app);
 // rota de usuario
 require('./src/routes/usuario.routes')(app);
 
+// rota de instalacao
+require('./src/routes/instalacao.routes')(app);
+
 // configura portas, aguarda requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
