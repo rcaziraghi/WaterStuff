@@ -39,9 +39,46 @@ cadastrarInstalacao = (req, res) => {
         }  
       });
   };
+
+  listarInstalacao = (req, res) => {
+    Usuario.findOne({
+        where: {
+          email: req.body.email
+        }
+      })
+      .then(usuario => {
+        console.log(usuario);
+        if (!usuario) {
+          return res.status(403).send({
+            message: "Email não cadastrado."
+          });
+        } else {
+          // busca as instalacoes
+          console.log("usuarioId",usuario.id);
+          Instalacao.findAll({
+            where: { 
+                // codConsumidor: req.body.codConsumidor,
+                usuarioId: usuario.id
+                // cpf: req.body.cpf
+              }
+          })
+          .then( instalacoes => {
+            res.status(200).send({
+                instalacoes: instalacoes
+              });
+          })
+          .catch(err => {
+            res.status(500).send({
+              message: err.message
+            });
+          });
+        }  
+      });
+  };
   
   const instalacao = {
-    cadastrarInstalacao: cadastrarInstalacao
+    cadastrarInstalacao: cadastrarInstalacao,
+    listarInstalacao: listarInstalacao
   }
   
   module.exports = instalacao;

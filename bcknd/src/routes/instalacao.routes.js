@@ -18,4 +18,13 @@ module.exports = function(app) {
       ],
       controller.cadastrarInstalacao
     );
+
+    app.post(
+      "/api/instalacao/listar",
+      [
+        authJwt.verificaToken,
+        authJwt.ehUsuario
+      ],
+      controller.listarInstalacao
+    );
   };
