@@ -27,15 +27,16 @@ db.sequelize = sequelize;
 db.usuario = require("./usuario.model.js")(sequelize, Sequelize);
 db.cargo = require("./cargo.model.js")(sequelize, Sequelize);
 db.instalacao = require("./instalacao.model.js")(sequelize, Sequelize);
+db.fatura = require("./fatura.model.js")(sequelize, Sequelize);
 
 // Monta a relacao entre cargo e usuario
 // db.usuario.hasMany(db.instalacao);
-db.instalacao.belongsTo(db.usuario, {
-  targetKey: 'id',
-  foreignKey: 'usuarioId'
-});
+// db.instalacao.belongsTo(db.usuario, {
+//   targetKey: 'id',
+//   foreignKey: 'usuarioId'
+// });
 
-// Monta a relacao entre instalacao e usuario
+// Monta a relacao entre instalacao e cargo
 db.cargo.belongsToMany(db.usuario, {
   through: "usuario_cargo",
   foreignKey: "idcargo",
@@ -48,9 +49,13 @@ db.usuario.belongsToMany(db.cargo, {
   otherKey: "idcargo"
 });
 
-// Monta a relação entre usuário e codigo de recuperacao de senha
+// Monta a relação entre usuário e instalacao
 db.usuario.hasMany(db.instalacao, { onDelete: 'CASCADE' });
 db.instalacao.belongsTo(db.usuario);
+
+// Monta a relação entre usuário e fatura
+db.instalacao.hasMany(db.fatura, { onDelete: 'CASCADE' });
+db.fatura.belongsTo(db.instalacao);
 
 module.exports = db;
 

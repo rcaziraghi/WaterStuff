@@ -39,6 +39,9 @@ require('./src/routes/usuario.routes')(app);
 // rota de instalacao
 require('./src/routes/instalacao.routes')(app);
 
+// rota de fatura
+require('./src/routes/fatura.routes')(app);
+
 // configura portas, aguarda requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

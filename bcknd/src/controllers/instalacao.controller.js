@@ -1,11 +1,8 @@
-const crypto = require("crypto");
 const db = require("../models");
 const Usuario = db.usuario;
 const Instalacao = db.instalacao;
 
 require('dotenv').config();
-
-var bcrypt = require("bcryptjs");
 
 cadastrarInstalacao = (req, res) => {
     Usuario.findOne({
