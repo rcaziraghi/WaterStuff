@@ -57,9 +57,7 @@ cadastrarInstalacao = (req, res) => {
           console.log("usuarioId",usuario.id);
           Instalacao.findAll({
             where: { 
-                // codConsumidor: req.body.codConsumidor,
                 usuarioId: usuario.id
-                // cpf: req.body.cpf
               }
           })
           .then( instalacoes => {

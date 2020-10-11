@@ -33,7 +33,7 @@ const TelaUsuario = () => {
         </Link>
         </li>
         <li>
-        <Link to={"/instalacao/lista"} className="form-group">
+        <Link to={"/instalacao/listar"} className="form-group">
           Lista de instalação de água
         </Link>
         </li>

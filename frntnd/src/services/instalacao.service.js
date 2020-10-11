@@ -21,9 +21,11 @@ const cadastrar = (dados) => {
     })
 };
 
-const listar = () => {
-    console.log("listar");
-    return axios.get(API_URL + "listar", {
+const listar = (email) => {
+    console.log("listar",email);
+    return axios.post(API_URL + "listar", {
+        email: email
+    }, {
         headers: authHeader()
     })
     .then((response) => {

@@ -1,146 +1,101 @@
-import React, { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Component } from "react";
 
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+import InstalacaoService from "../services/instalacao.service";
+import AuthService from "../services/auth.service";
 
-import { cadastrar } from "../actions/instalacao";
+export default class listarInstalacao extends Component {
 
-const validarRequerido = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Este campo é requerido!
-      </div>
-    );
+  constructor(props) {
+
+    super(props);
+
+    this.state = {
+      usuario: AuthService.usuarioLogado(),
+      instalacoes: []
+    };
   }
-};
 
-// pagina login
-const ListarInstalacao = (props) => {
-  const form = useRef();
-  const checkBtn = useRef();
+    componentDidMount(){
+      let Estado = { ...this.state };
+      console.log('Estado',Estado);
+      InstalacaoService.listar(Estado.usuario.email)
+        .then( response => {
+          console.log('response', response.instalacoes);
+          Estado.instalacoes = response.instalacoes;
+          this.setState({
+            usuario: Estado.usuario,
+            instalacoes: Estado.instalacoes
+          });
+        })
+        .catch( error => {
+          console.log('error',error);
+        })
+      // InstalacaoService.listar(Estado.usuario.email)
+      // axios
+      //   .get('https://www.reddit.com/r/reactjs.json')
+      //   .then(({ data })=> {
+      //     this.setState({ 
+      //       kind: data.kind, 
+      //       data: data.data.children
+      //     });
+      //   })
+      //   .catch((err)=> {})
+    }
 
-  const [cpf, setCpf] = useState("");
-  const [codConsumidor, setCodConsumidor] = useState("");
-  const [tipoMensagem, setTipoMensagem] = useState("");
-  const [conteudo, setConteudo] = useState("");
-  const [loading, setLoading] = useState(false);
+    render() {
 
-  const { estaLogado, usuario } = useSelector(state => state.auth);
-  const { mensagem } = useSelector(state => state.mensagem);
+      const { instalacoes } = this.state;
+      
+      const listaItens = instalacoes.map( instalacao => {
+                                  return (
+                                    <div className="row" key={['row',instalacao.id].toString()}>
+                                      <div className="col border" key={["id",instalacao.id].toString()}>
+                                          {instalacao.id}
+                                      </div>
+                                      <div className="col border" key={["codConsumidor",instalacao.codConsumidor].toString()}>
+                                          {instalacao.codConsumidor}
+                                      </div>
+                                      <div className="col border" key={["cpf",instalacao.cpf].toString()}>
+                                          {instalacao.cpf}
+                                      </div>
+                                      <div className="col border" key={["createdAt",instalacao.createdAt].toString()}>
+                                          {instalacao.createdAt}
+                                      </div>
+                                      <div className="col border" key={["updatedAt",instalacao.id].toString()}>
+                                          {instalacao.updatedAt}
+                                      </div>
+                                    </div>
+                                  )
+                                });
+    
+      return (
+    <div className="container-fluid">
+      <div className="card card-body">
 
-  const dispatch = useDispatch();
-
-//   const aoMudarCpf = (e) => {
-//     const cpf = e.target.value;
-//     setCpf(cpf);
-//   };
-
-//   const aoMudarCodConsumidor = (e) => {
-//     const codConsumidor = e.target.value;
-//     setCodConsumidor(codConsumidor);
-//   };
-
-    useEffect(() => {
-      servicoUsuario.obterTelaUsuario().then(
-        (resposta) => {
-          setConteudo(resposta.data);
-        },
-        (erro) => {
-          const _content =
-            (erro.resposta &&
-              erro.resposta.data &&
-              erro.resposta.data.mensagem) ||
-            erro.message ||
-            erro.toString();
-  
-          setConteudo(_content);
-        }
-      );
-    }, []);
-//     // Evita comportamento default do navegador
-//     // ex. refresh/reload  por causa do submit do formulário
-//     e.preventDefault();
-
-//     setLoading(true);
-
-//     form.current.validateAll();
-
-//     if (checkBtn.current.context._errors.length === 0
-//             && estaLogado) {
-//         console.log("usuario", usuario);
-//         const dados = {
-//             codConsumidor: codConsumidor,
-//             email: usuario.email,
-//             cpf: cpf
-//         };
-//       dispatch(cadastrar(dados))
-//         .then(() => {
-//           setTipoMensagem(false);
-//           console.log('Sucesso Cadastro!');
-//         })
-//         .catch(() => {
-//           console.log('Erro cadastro!', mensagem, estaLogado);
-//           setTipoMensagem(true);
-//         });
-//     } else {
-//       console.log('Erro tela login!');
-//     }
-//     setLoading(false);
-//   };
-
-  return (
-    <div className="col-md-12">
-      <div className="card card-container">
-
-        <Form onSubmit={handleCadastro} ref={form}>
-          <div className="form-group">
-            <label htmlFor="email">CPF</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="cpf"
-              value={cpf}
-              onChange={aoMudarCpf}
-              validations={[validarRequerido]}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="senha">Código de consumidor</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="codConsumidor"
-              value={codConsumidor}
-              onChange={aoMudarCodConsumidor}
-              validations={[validarRequerido]}
-            />
-          </div>
-
-          <div className="form-group">
-            <button className="btn btn-primary btn-block" disabled={loading}>
-              {loading && (
-                <span className="spinner-border spinner-border-sm"></span>
-              )}
-              <span>Cadastrar</span>
-            </button>
-          </div>
-
-          {mensagem && (
-            <div className="form-group">
-              <div className={tipoMensagem ? "alert alert-danger" : "alert alert-primary"} role="alert">
-                {mensagem}
-              </div>
-            </div>
-          )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
+      <div className="row">
+        <div className="col border">
+          ID:
+        </div>
+        <div className="col border">
+          Código de consumidor:
+        </div>
+        <div className="col border">
+          CPF:
+        </div>
+        <div className="col border">
+          Criado em:
+        </div>
+        <div className="col border">
+          Atualizado em:
+        </div>
       </div>
-    </div>
-  );
-};
+        
+        {listaItens}
 
-export default CadastrarInstalacao;
+      </div>
+     </div>
+    );
+
+  }
+
+};

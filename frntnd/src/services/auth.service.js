@@ -45,9 +45,14 @@ const recuperarSenha = (email) => {
   });
 };
 
+const usuarioLogado = () => {
+  return JSON.parse(localStorage.getItem('usuario'));
+}
+
 export default {
   registrar,
   login,
   logout,
-  recuperarSenha
+  recuperarSenha,
+  usuarioLogado
 };
