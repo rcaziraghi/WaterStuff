@@ -15,6 +15,7 @@ import TelaAdmin from "./components/TelaAdmin";
 import RecuperarSenha from "./components/RecuperarSenha";
 import CadastrarInstalacao from "./components/CadastrarInstalacao";
 import ListarInstalacao from "./components/ListarInstalacao";
+import ListarFatura from "./components/ListarFatura";
 
 import { logout } from "./actions/auth";
 import { limparMensagem } from "./actions/mensagem";
@@ -145,6 +146,7 @@ const App = () => {
             <Route exact path="/recuperar/senha" component={RecuperarSenha} />
             <Route exact path="/instalacao/cadastro" component={CadastrarInstalacao} />
             <Route exact path="/instalacao/listar" component={ListarInstalacao} />
+            <Route exact path="/fatura/listar" component={ListarFatura} />
             <Route path="/usuario" component={TelaUsuario} />
             <Route path="/mod" component={TelaMod} />
             <Route path="/admin" component={TelaAdmin} />

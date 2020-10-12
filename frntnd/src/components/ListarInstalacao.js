@@ -3,6 +3,10 @@ import React, { Component } from "react";
 import InstalacaoService from "../services/instalacao.service";
 import AuthService from "../services/auth.service";
 
+import moment from 'moment';
+import 'moment/locale/pt';
+moment.locale('pt');
+
 export default class listarInstalacao extends Component {
 
   constructor(props) {
@@ -30,17 +34,7 @@ export default class listarInstalacao extends Component {
         .catch( error => {
           console.log('error',error);
         })
-      // InstalacaoService.listar(Estado.usuario.email)
-      // axios
-      //   .get('https://www.reddit.com/r/reactjs.json')
-      //   .then(({ data })=> {
-      //     this.setState({ 
-      //       kind: data.kind, 
-      //       data: data.data.children
-      //     });
-      //   })
-      //   .catch((err)=> {})
-    }
+    };
 
     render() {
 
@@ -59,10 +53,10 @@ export default class listarInstalacao extends Component {
                                           {instalacao.cpf}
                                       </div>
                                       <div className="col border" key={["createdAt",instalacao.createdAt].toString()}>
-                                          {instalacao.createdAt}
+                                          {moment(instalacao.createdAt).format('LLL')}
                                       </div>
                                       <div className="col border" key={["updatedAt",instalacao.id].toString()}>
-                                          {instalacao.updatedAt}
+                                          {moment(instalacao.updatedAt).format('LLL')}
                                       </div>
                                     </div>
                                   )
@@ -95,7 +89,5 @@ export default class listarInstalacao extends Component {
       </div>
      </div>
     );
-
   }
-
 };

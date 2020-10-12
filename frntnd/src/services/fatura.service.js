@@ -1,28 +1,23 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+
 require('dotenv').config();
 
-const API_URL = "http://localhost:8080/api/instalacao/";
+console.log(require('dotenv').config())
+
+const API_URL = "http://localhost:8080/api/fatura/";
 
 const cadastrar = (dados) => {
     console.log("chegou cadastrar");
     console.log("dados",dados);
     console.log("rota", API_URL);
-    return axios.post(API_URL + "cadastrar", {
-        codConsumidor: dados.codConsumidor,
-        email: dados.email,
-        cpf: dados.cpf
-    }, {
-        headers: authHeader()
-    })
-    .then((response) => {
-        console.log('resposta instal servi',response);
-        return response.data;
-    })
+
+
 };
 
 const listar = (email) => {
     console.log("listar",email);
+    console.log("rota", API_URL);
     return axios.post(API_URL + "listar", {
         email: email
     }, {

@@ -48,8 +48,7 @@ listarFatura = (req,res) => {
                       instalacaoId: {
                           [Op.in]: arrayIds
                       }
-                  },
-                  raw: true
+                  }
               })
               .then( faturas => {
                   if(!faturas){
