@@ -1,42 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Link } from 'react-router-dom';
 
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+// import Form from "react-validation/build/form";
+// import Input from "react-validation/build/input";
+// import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import { login } from "../actions/auth";
 
-const validarRequerido = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Este campo é requerido!
-      </div>
-    );
-  }
-};
-
-const validarEmail = (value) => {
-    if (!isEmail(value)) {
-      return (
-        <div className="alert alert-danger" role="alert">
-          Este não é um email válido.
-        </div>
-      );
-    }
-  };
-
 // pagina login
 const Login = (props) => {
-  const form = useRef();
-  const checkBtn = useRef();
+  // const form = useRef();
+  // const checkBtn = useRef();
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mensagemEmail, setMensagemEmail] = useState("");
+  const [mensagemSenha, setMensagemSenha] = useState("");
 
   const { estaLogado } = useSelector(state => state.auth);
   const { mensagem } = useSelector(state => state.mensagem);
@@ -45,11 +27,29 @@ const Login = (props) => {
 
   const aoMudarEmail = (e) => {
     const email = e.target.value;
+    
+    if(!email){
+      setMensagemEmail("Este campo é requerido!");
+    } else if(!isEmail(email)) {
+      setMensagemEmail("Este não é um email válido.");
+    } else {
+      setMensagemEmail("");
+    }
+    
     setEmail(email);
   };
 
   const aoMudarSenha = (e) => {
     const senha = e.target.value;
+
+    if(!senha){
+      setMensagemSenha("Este campo é requerido!");
+    } else if(senha.length < 7) {
+      setMensagemSenha("É necessário 6 dígitos ao menos na senha!");
+    } else {
+      setMensagemSenha("");
+    }
+
     setSenha(senha);
   };
 
@@ -60,9 +60,9 @@ const Login = (props) => {
 
     setLoading(true);
 
-    form.current.validateAll();
+    // form.current.validateAll();
 
-    if (checkBtn.current.context._errors.length === 0) {
+    if (!mensagemEmail && !mensagemSenha) {
       dispatch(login(email, senha))
         .then(() => {
           console.log('Sucesso login!');
@@ -93,30 +93,38 @@ const Login = (props) => {
           className="profile-img-card"
         />
 
-        <Form onSubmit={handleLogin} ref={form}>
+        <form onSubmit={handleLogin}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <Input
+            <input
               type="text"
               className="form-control"
               name="email"
               value={email}
-              onChange={aoMudarEmail}
-              validations={[validarRequerido, validarEmail]}
+              onChange={e => aoMudarEmail(e)}
+              // validations={[validarRequerido, validarEmail]}
             />
           </div>
+          { mensagemEmail &&
+          <div className="alert alert-danger" role="alert">
+            {mensagemEmail}
+          </div>}
 
           <div className="form-group">
             <label htmlFor="senha">Senha</label>
-            <Input
+            <input
               type="password"
               className="form-control"
               name="senha"
               value={senha}
-              onChange={aoMudarSenha}
-              validations={[validarRequerido]}
+              onChange={e => aoMudarSenha(e)}
+              // validations={[validarRequerido]}
             />
           </div>
+          { mensagemSenha &&
+          <div className="alert alert-danger" role="alert">
+            {mensagemSenha}
+          </div>}
 
           <Link to={"/recuperar/senha"} className="form-group">
           Esqueceu sua senha?
@@ -138,8 +146,8 @@ const Login = (props) => {
               </div>
             </div>
           )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
+          {/* <button style={{ display: "none" }} ref={checkBtn} /> */}
+        </form>
       </div>
     </div>
   );

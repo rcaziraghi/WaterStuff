@@ -3,17 +3,16 @@ import { Link } from 'react-router-dom';
 import servicoUsuario from "../services/usuario.service";
 
 const TelaUsuario = () => {
-  // const [conteudo, setConteudo] = useState("");
+  const [conteudo, setConteudo] = useState("");
   const [selecao, setSelecao] = useState("instalacao");
+  const [liberado, setLiberado] = useState(false);
 
-  // handleSelect(index){
-  //   setSelecao(index);
-  // }
 
   useEffect(() => {
     servicoUsuario.obterTelaUsuario().then(
       (resposta) => {
-        // setConteudo(resposta.data);
+        setConteudo(resposta.data);
+        setLiberado(true);
       },
       (erro) => {
         const _content =
@@ -23,30 +22,33 @@ const TelaUsuario = () => {
           erro.message ||
           erro.toString();
 
-        // setConteudo(_content);
+        setConteudo(_content);
+        setLiberado(false);
+
       }
     );
   }, []);
 
   return (
     <div className="container">
-        {/* <header>
+        <header>
         <h5 className="col border">{conteudo}</h5>
-        </header> */}
+        </header>
+      { liberado &&
       <div className="row">
         <div className="col-4">
           <div className="list-group" id="list-tab" role="tablist">
-            <a className={selecao === 'instalacao' ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} 
-                id="instalacao" data-toggle="list" onClick={()=>setSelecao('instalacao')} role="tab" aria-controls="home">Ligação de água</a>
+            <button className={selecao === 'instalacao' ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} 
+                id="instalacao" data-toggle="list" onClick={()=>setSelecao('instalacao')} role="tab" aria-controls="home">Ligação de água</button>
 
-            <a className={selecao === 'fatura' ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} 
-                id="fatura" data-toggle="list" onClick={()=>setSelecao('fatura')} role="tab" aria-controls="profile">Fatura</a>
+            <button className={selecao === 'fatura' ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} 
+                id="fatura" data-toggle="list" onClick={()=>setSelecao('fatura')} role="tab" aria-controls="profile">Fatura</button>
 
-            <a className={selecao === 'solicitacoes' ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} 
-                id="solicitacoes" data-toggle="list" onClick={()=>setSelecao('solicitacoes')} role="tab" aria-controls="messages">Solicitações</a>
+            <button className={selecao === 'solicitacoes' ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} 
+                id="solicitacoes" data-toggle="list" onClick={()=>setSelecao('solicitacoes')} role="tab" aria-controls="messages">Solicitações</button>
 
-            <a className={selecao === 'protocolos' ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} 
-                id="protocolos" data-toggle="list" onClick={()=>setSelecao('protocolos')} role="tab" aria-controls="settings">Protocolos</a>
+            <button className={selecao === 'protocolos' ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} 
+                id="protocolos" data-toggle="list" onClick={()=>setSelecao('protocolos')} role="tab" aria-controls="settings">Protocolos</button>
           </div>
         </div>
 
@@ -92,7 +94,7 @@ const TelaUsuario = () => {
 
           </div>
         </div>
-      </div>
+      </div> }
     </div>
   );
 };

@@ -3,8 +3,6 @@ import authHeader from "./auth-header";
 
 require('dotenv').config();
 
-console.log(require('dotenv').config())
-
 const API_URL = "http://localhost:8080/api/fatura/";
 
 const cadastrar = (dados) => {
