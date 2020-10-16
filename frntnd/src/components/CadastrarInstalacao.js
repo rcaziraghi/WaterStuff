@@ -1,21 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-// import Form from "react-validation/build/form";
-// import Input from "react-validation/build/input";
-// import CheckButton from "react-validation/build/button";
-
 import { cadastrar } from "../actions/instalacao";
-
-const validarRequerido = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Este campo é requerido!
-      </div>
-    );
-  }
-};
 
 const validarCPF = (cpf) => {	
 	cpf = cpf.replace(/[^\d]+/g,'');	
@@ -60,8 +46,6 @@ const validarCPF = (cpf) => {
 
 // pagina login
 const CadastrarInstalacao = (props) => {
-  // const form = useRef();
-  // const checkBtn = useRef();
 
   const [cpf, setCpf] = useState("");
   const [codConsumidor, setCodConsumidor] = useState("");
@@ -77,7 +61,9 @@ const CadastrarInstalacao = (props) => {
 
   const aoMudarCpf = (e) => {
     const cpf = e.target.value;
-    if(!validarCPF(cpf)){
+    if(!cpf){
+      setMensagemCpf("CPF requerido!");
+    } else if(!validarCPF(cpf)){
       setMensagemCpf("CPF inválido!");
     } else {
       setMensagemCpf("");
@@ -87,6 +73,12 @@ const CadastrarInstalacao = (props) => {
 
   const aoMudarCodConsumidor = (e) => {
     const codConsumidor = e.target.value;
+    if(!codConsumidor){
+      setMensagemCodConsumidor("Este campo é requerido!");
+    } else {
+      setMensagemCodConsumidor("");
+    }
+
     setCodConsumidor(codConsumidor);
   };
 
@@ -96,8 +88,6 @@ const CadastrarInstalacao = (props) => {
     e.preventDefault();
 
     setLoading(true);
-
-    // form.current.validateAll();
 
     if (!mensagemCodConsumidor && !mensagemCpf && estaLogado) {
         console.log("usuario", usuario);
@@ -134,7 +124,6 @@ const CadastrarInstalacao = (props) => {
               name="cpf"
               value={cpf}
               onChange={aoMudarCpf}
-              // validations={[validarCPF]}
             />
           </div>
           
@@ -152,7 +141,6 @@ const CadastrarInstalacao = (props) => {
               name="codConsumidor"
               value={codConsumidor}
               onChange={aoMudarCodConsumidor}
-              // validations={[validarRequerido]}
             />
           </div>
           {mensagemCodConsumidor &&
