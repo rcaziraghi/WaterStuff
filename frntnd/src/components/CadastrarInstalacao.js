@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+// import Form from "react-validation/build/form";
+// import Input from "react-validation/build/input";
+// import CheckButton from "react-validation/build/button";
 
 import { cadastrar } from "../actions/instalacao";
 
@@ -20,11 +20,7 @@ const validarRequerido = (value) => {
 const validarCPF = (cpf) => {	
 	cpf = cpf.replace(/[^\d]+/g,'');	
 	if(cpf === '') {
-    return (
-      <div className="alert alert-danger" role="alert">
-        Este campo é requerido!
-      </div>
-    );
+    return false;
   }
 	// Elimina CPFs invalidos conhecidos	
 	if (cpf.length !== 11 || 
@@ -38,11 +34,7 @@ const validarCPF = (cpf) => {
 		cpf === "77777777777" || 
 		cpf === "88888888888" || 
 		cpf === "99999999999")
-      return (
-        <div className="alert alert-danger" role="alert">
-          CPF inválido!
-        </div>
-      );	
+      return false;	
 	// Valida 1o digito	
 	let add = 0;	
 	for (let i=0; i < 9; i ++)		
@@ -51,11 +43,7 @@ const validarCPF = (cpf) => {
 		if (rev === 10 || rev === 11)		
 			rev = 0;	
 		if (rev !== parseInt(cpf.charAt(9)))		
-      return (
-        <div className="alert alert-danger" role="alert">
-          CPF inválido!
-        </div>
-      );		
+      return false;	
 	// Valida 2o digito	
 	add = 0;	
 	for (let i = 0; i < 10; i ++)		
@@ -63,23 +51,24 @@ const validarCPF = (cpf) => {
 	rev = 11 - (add % 11);	
 	if (rev === 10 || rev === 11)	
 		rev = 0;	
-	if (rev !== parseInt(cpf.charAt(10)))
-    return (
-      <div className="alert alert-danger" role="alert">
-        CPF inválido!
-      </div>
-    );		  
+	if (rev !== parseInt(cpf.charAt(10))) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 // pagina login
 const CadastrarInstalacao = (props) => {
-  const form = useRef();
-  const checkBtn = useRef();
+  // const form = useRef();
+  // const checkBtn = useRef();
 
   const [cpf, setCpf] = useState("");
   const [codConsumidor, setCodConsumidor] = useState("");
   const [tipoMensagem, setTipoMensagem] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mensagemCpf, setMensagemCpf] = useState("");
+  const [mensagemCodConsumidor, setMensagemCodConsumidor] = useState("");
 
   const { estaLogado, usuario } = useSelector(state => state.auth);
   const { mensagem } = useSelector(state => state.mensagem);
@@ -88,6 +77,11 @@ const CadastrarInstalacao = (props) => {
 
   const aoMudarCpf = (e) => {
     const cpf = e.target.value;
+    if(!validarCPF(cpf)){
+      setMensagemCpf("CPF inválido!");
+    } else {
+      setMensagemCpf("");
+    }
     setCpf(cpf);
   };
 
@@ -103,10 +97,9 @@ const CadastrarInstalacao = (props) => {
 
     setLoading(true);
 
-    form.current.validateAll();
+    // form.current.validateAll();
 
-    if (checkBtn.current.context._errors.length === 0
-            && estaLogado) {
+    if (!mensagemCodConsumidor && !mensagemCpf && estaLogado) {
         console.log("usuario", usuario);
         const dados = {
             codConsumidor: codConsumidor,
@@ -132,30 +125,41 @@ const CadastrarInstalacao = (props) => {
     <div className="col-md-12">
       <div className="card card-container">
 
-        <Form onSubmit={handleCadastro} ref={form}>
+        <form onSubmit={handleCadastro}>
           <div className="form-group">
             <label htmlFor="email">CPF</label>
-            <Input
+            <input
               type="text"
               className="form-control"
               name="cpf"
               value={cpf}
               onChange={aoMudarCpf}
-              validations={[validarCPF]}
+              // validations={[validarCPF]}
             />
           </div>
+          
+          {mensagemCpf &&
+          <div className="alert alert-danger" role="alert">
+            {mensagemCpf}
+          </div>
+          }
 
           <div className="form-group">
             <label htmlFor="senha">Código de consumidor</label>
-            <Input
+            <input
               type="text"
               className="form-control"
               name="codConsumidor"
               value={codConsumidor}
               onChange={aoMudarCodConsumidor}
-              validations={[validarRequerido]}
+              // validations={[validarRequerido]}
             />
           </div>
+          {mensagemCodConsumidor &&
+          <div className="alert alert-danger" role="alert">
+            {mensagemCodConsumidor}
+          </div>
+          }
 
           <div className="form-group">
             <button className="btn btn-primary btn-block" disabled={loading}>
@@ -173,8 +177,8 @@ const CadastrarInstalacao = (props) => {
               </div>
             </div>
           )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
+          {/* <CheckButton style={{ display: "none" }} ref={checkBtn} /> */}
+        </form>
       </div>
     </div>
   );
