@@ -15,18 +15,18 @@ const TelaUsuario = () => {
         setLiberado(true);
       },
       (erro) => {
+        console.log("erro", erro);
         const _content =
-          (erro.resposta &&
-            erro.resposta.data &&
-            erro.resposta.data.mensagem) ||
-          erro.message ||
-          erro.toString();
-
+          // (erro.resposta &&
+          //   erro.resposta.data &&
+          //   erro.resposta.data.mensagem) ||
+          // erro.message ||
+          erro.response.data.message.toString();
+        console.log('content', _content);
         setConteudo(_content);
         setLiberado(false);
-
       }
-    );
+    )
   }, []);
 
   return (

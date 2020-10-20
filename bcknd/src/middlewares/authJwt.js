@@ -22,7 +22,7 @@ verificaToken = (req, res, next) => {
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
       return res.status(401).send({
-        message: "Sem autorização!"
+        message: "Favor conectar novamente."
       });
     }
     req.userId = decoded.id;
