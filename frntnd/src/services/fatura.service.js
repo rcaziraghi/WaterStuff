@@ -1,16 +1,12 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-require('dotenv').config();
-
-const API_URL = "http://localhost:8080/api/fatura/";
+const API_URL = process.env.REACT_APP_API_URL_FATURA;
 
 const cadastrar = (dados) => {
     console.log("chegou cadastrar");
     console.log("dados",dados);
     console.log("rota", API_URL);
-
-
 };
 
 const listar = (email) => {

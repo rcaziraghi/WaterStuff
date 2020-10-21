@@ -1,7 +1,6 @@
 import axios from "axios";
-require('dotenv').config();
 
-const API_URL = "http://localhost:8080/api/auth/";
+const API_URL = process.env.REACT_APP_API_URL_AUTH;
 
 const registrar = (dados) => {
   console.log("chegou registrar");
@@ -17,6 +16,7 @@ const registrar = (dados) => {
 };
 
 const login = (email, senha) => {
+  console.log("env", API_URL);
   return axios
     .post(API_URL + "login", {
       email,

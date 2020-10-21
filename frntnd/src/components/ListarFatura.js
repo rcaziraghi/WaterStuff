@@ -42,7 +42,7 @@ componentDidMount(){
         faturasFiltradas: this.state.faturas
       });
     } else {
-    const listaFiltrada = this.state.faturasFiltradas.filter( fatura => {
+    const listaFiltrada = this.state.faturas.filter( fatura => {
       console.log(fatura[e.target.id]);
       return fatura[e.target.id].toString().indexOf(e.target.value) === 0
     }
@@ -57,35 +57,37 @@ componentDidMount(){
 
   render() {
 
-    let faturas = this.state.faturasFiltradas.map( fatura => {
-      return (
-        <div className="row" key={['row',fatura.id].toString()}>
-          <div className="col border" key={["id",fatura.id].toString()}>
-              {fatura.id}
-          </div>
-          <div className="col border" key={["instalacaoId",fatura.instalacaoId].toString()}>
-              {fatura.instalacaoId}
-          </div>
-          <div className="col border" key={["numFatura",fatura.numFatura].toString()}>
-              {fatura.numFatura}
-          </div>
-          <div className="col border" key={["ano",fatura.ano].toString()}>
-              {fatura.ano}
-          </div>
-          <div className="col border" key={["mes",fatura.mes].toString()}>
-              {fatura.mes}
-          </div>
-          <div className="col border" key={["valor",fatura.valor].toString()}>
-              R$ {fatura.valor}
-          </div>
-          <div className="col border" key={["situacao",fatura.situacao].toString()}>
-              {fatura.situacao}
-          </div>
-          <div className="col border" key={["createdAt",fatura.createdAt].toString()}>
-              {moment(fatura.createdAt).format('LLL')}
-          </div>
-        </div>
-      )
+    let faturas = !this.state.faturasFiltradas.length > 0 ? 
+                    <div>Nenhuma fatura encontrada</div> : 
+                    this.state.faturasFiltradas.map( fatura => {
+                                  return (
+                                    <div className="row" key={['row',fatura.id].toString()}>
+                                      <div className="col border" key={["id",fatura.id].toString()}>
+                                          {fatura.id}
+                                      </div>
+                                      <div className="col border" key={["instalacaoId",fatura.instalacaoId].toString()}>
+                                          {fatura.instalacaoId}
+                                      </div>
+                                      <div className="col border" key={["numFatura",fatura.numFatura].toString()}>
+                                          {fatura.numFatura}
+                                      </div>
+                                      <div className="col border" key={["ano",fatura.ano].toString()}>
+                                          {fatura.ano}
+                                      </div>
+                                      <div className="col border" key={["mes",fatura.mes].toString()}>
+                                          {fatura.mes}
+                                      </div>
+                                      <div className="col border" key={["valor",fatura.valor].toString()}>
+                                          R$ {fatura.valor}
+                                      </div>
+                                      <div className="col border" key={["situacao",fatura.situacao].toString()}>
+                                          {fatura.situacao}
+                                      </div>
+                                      <div className="col border" key={["createdAt",fatura.createdAt].toString()}>
+                                          {moment(fatura.createdAt).format('LLL')}
+                                      </div>
+                                    </div>
+                                  )
     });
   
     return (
@@ -121,9 +123,6 @@ componentDidMount(){
           </div>
         </div>
         </div>
-        {/* </div> */}
-
-        {/* <div className="card card-body"> */}
           
         <div className="row">
           <div className="col border">
