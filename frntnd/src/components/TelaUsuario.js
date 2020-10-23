@@ -89,7 +89,18 @@ const TelaUsuario = () => {
 
             <div className={selecao === 'protocolos' ? "tab-pane fade show active" : "tab-pane fade"}
               id="list-protocolos" role="tabpanel" aria-labelledby="protocolos">
-                Em breve...
+               <ul className="list-group list-group-flush">
+                  <li className="list-group-item">
+                  <Link to={"/denuncia/criar"} className="form-group">
+                    Protocolar denúncia
+                  </Link>
+                  </li>
+                  <li className="list-group-item">
+                  <Link to={"/denuncia/listar"} className="form-group">
+                    Listar denúncias protocoladas
+                  </Link>
+                  </li>
+                </ul>
             </div>
 
           </div>
