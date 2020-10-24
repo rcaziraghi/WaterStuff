@@ -9,13 +9,16 @@ import Login from "./components/Login";
 import Registrar from "./components/Registrar";
 import Home from "./components/Home";
 import Perfil from "./components/Perfil";
-import TelaUsuario from "./components/TelaUsuario";
-import TelaMod from "./components/TelaMod";
-import TelaAdmin from "./components/TelaAdmin";
+import TelaUsuario from "./components/telas/TelaUsuario";
+import TelaMod from "./components/telas/TelaMod";
+import TelaAdmin from "./components/telas/TelaAdmin";
 import RecuperarSenha from "./components/RecuperarSenha";
-import CadastrarInstalacao from "./components/CadastrarInstalacao";
-import ListarInstalacao from "./components/ListarInstalacao";
-import ListarFatura from "./components/ListarFatura";
+import CadastrarInstalacao from "./components/instalacoes/CadastrarInstalacao";
+import ListarInstalacao from "./components/instalacoes/ListarInstalacao";
+import ListarFatura from "./components/faturas/ListarFatura";
+
+import ListarAvaliacao from "./components/avaliacoes/ListarAvaliacao";
+import CriarAvaliacao from "./components/avaliacoes/CriarAvaliacao";
 
 import { logout } from "./actions/auth";
 import { limparMensagem } from "./actions/mensagem";
@@ -147,6 +150,8 @@ const App = () => {
             <Route exact path="/instalacao/cadastro" component={CadastrarInstalacao} />
             <Route exact path="/instalacao/listar" component={ListarInstalacao} />
             <Route exact path="/fatura/listar" component={ListarFatura} />
+            <Route exact path="/avaliacao/listar" component={ListarAvaliacao} />
+            <Route exact path="/avaliacao/criar" component={CriarAvaliacao} />
             <Route path="/usuario" component={TelaUsuario} />
             <Route path="/mod" component={TelaMod} />
             <Route path="/admin" component={TelaAdmin} />

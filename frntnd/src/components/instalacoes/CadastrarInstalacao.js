@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { cadastrar } from "../actions/instalacao";
+import { cadastrar } from "../../actions/instalacao";
 
 const validarCPF = (cpf) => {	
 	cpf = cpf.replace(/[^\d]+/g,'');	

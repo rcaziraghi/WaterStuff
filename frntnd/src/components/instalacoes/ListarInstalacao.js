@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import InstalacaoService from "../services/instalacao.service";
-import AuthService from "../services/auth.service";
+import InstalacaoService from "../../services/instalacao.service";
+import AuthService from "../../services/auth.service";
 
 import moment from 'moment';
 import 'moment/locale/pt';

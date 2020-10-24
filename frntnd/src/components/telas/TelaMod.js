@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import servicoUsuario from "../services/usuario.service";
+import servicoUsuario from "../../services/usuario.service";
 
 const TelaMod = () => {
   const [conteudo, setConteudo] = useState("");

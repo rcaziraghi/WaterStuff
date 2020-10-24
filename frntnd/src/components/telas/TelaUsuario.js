@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import servicoUsuario from "../services/usuario.service";
+import servicoUsuario from "../../services/usuario.service";
 
 const TelaUsuario = () => {
   const [conteudo, setConteudo] = useState("");
@@ -49,6 +49,9 @@ const TelaUsuario = () => {
 
             <button className={selecao === 'protocolos' ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} 
                 id="protocolos" data-toggle="list" onClick={()=>setSelecao('protocolos')} role="tab" aria-controls="settings">Protocolos</button>
+            
+            <button className={selecao === 'avaliacoes' ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} 
+                id="avaliacoes" data-toggle="list" onClick={()=>setSelecao('avaliacoes')} role="tab" aria-controls="settings">Avaliações</button>
           </div>
         </div>
 
@@ -98,6 +101,22 @@ const TelaUsuario = () => {
                   <li className="list-group-item">
                   <Link to={"/denuncia/listar"} className="form-group">
                     Listar denúncias protocoladas
+                  </Link>
+                  </li>
+                </ul>
+            </div>
+
+            <div className={selecao === 'avaliacoes' ? "tab-pane fade show active" : "tab-pane fade"}
+              id="list-avaliacoes" role="tabpanel" aria-labelledby="avaliacoes">
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item">
+                  <Link to={"/avaliacao/criar"} className="form-group">
+                    Avaliar
+                  </Link>
+                  </li>
+                  <li className="list-group-item">
+                  <Link to={"/avaliacao/listar"} className="form-group">
+                    Listar avaliações
                   </Link>
                   </li>
                 </ul>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
-import FaturaService from "../services/fatura.service";
-import AuthService from "../services/auth.service";
+import FaturaService from "../../services/fatura.service";
+import AuthService from "../../services/auth.service";
 
 import moment from 'moment';
 import 'moment/locale/pt';
