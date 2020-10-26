@@ -1,5 +1,5 @@
 const { authJwt } = require("../middlewares");
-const controller = require("../controllers/instalacao.controller");
+const controller = require("../controllers/avaliacao.controller");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -11,14 +11,14 @@ module.exports = function (app) {
   });
 
   app.post(
-    "/api/instalacao/cadastrar",
+    "/api/avaliacao/criar",
     [authJwt.verificaToken, authJwt.ehUsuario],
-    controller.cadastrarInstalacao
+    controller.criarAvaliacao
   );
 
   app.post(
-    "/api/instalacao/listar",
+    "/api/avaliacao/listar",
     [authJwt.verificaToken, authJwt.ehUsuario],
-    controller.listarInstalacao
+    controller.listarAvaliacao
   );
 };

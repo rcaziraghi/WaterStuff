@@ -1,86 +1,157 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Select from 'react-select';
-
-// import { cadastrar } from "../../actions/avaliacoes";
+import { criar } from "../../actions/avaliacao";
 
 const CriarAvaliacao = (props) => {
+  const { estaLogado, usuario } = useSelector((state) => state.auth);
+  const { mensagem } = useSelector((state) => state.mensagem);
 
-    const [titulo, setTitulo] = useState("");
-    const [nota, setNota] = useState("");
-    const [atendimento, setAtendimento] = useState("");
-    const [observacoes, setObservacoes] = useState("");
+  // Se não está logado
+  if (!estaLogado) {
+    props.history.push("/login");
+    window.location.reload();
+  }
 
-    const [loading, setLoading] = useState("");
-    const [mostrarDropdown, setMostrarDropdown] = useState(false);
+  const [titulo, setTitulo] = useState("");
+  const [nota, setNota] = useState("");
+  const [atendimento, setAtendimento] = useState("");
+  const [observacoes, setObservacoes] = useState("");
 
-    const [mensagemTitulo, setMensagemTitulo] = useState("");
-    const [mensagemNota, setMensagemNota] = useState("");
-    const [mensagemAtendimento, setMensagemAtendimento] = useState("");
-    const [mensagemObservacoes, setMensagemObservacoes] = useState("");
+  const [loading, setLoading] = useState("");
 
-    const [mensagemBackend, setMensagemBackend] = useState("");
+  const [mensagemTitulo, setMensagemTitulo] = useState("");
+  const [mensagemNota, setMensagemNota] = useState("");
+  const [mensagemAtendimento, setMensagemAtendimento] = useState("");
 
-    const { estaLogado, usuario } = useSelector(state => state.auth);
-    const { mensagem } = useSelector(state => state.mensagem);
+  const [mensagemBackend, setMensagemBackend] = useState("");
+  const [tipoMensagemBackend, setTipoMensagemBackend] = useState("");
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const valores = [0,1,2,3,4,5,6,7,8,9,10];
+  const valores = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 
-    const rangeAvaliacoes = valores.map(i => {
-        return (
-            <option key={i}>{i}</option>
-        )
-    });
+  const rangeAvaliacoes = valores.map((i) => {
+    return <option key={i}>{i}</option>;
+  });
 
-    const aoMudarTitulo = (e) => {
+  const validarPreenchido = (valor) => {
+    if (!valor) {
+      return false;
+    } else {
+      return true;
+    }
+  };
 
-    };
+  const aoMudarTitulo = (e) => {
+    const tituloInserido = e.target.value;
+    validarPreenchido(tituloInserido)
+      ? setMensagemTitulo("")
+      : setMensagemTitulo("Preencher título!");
+    setTitulo(tituloInserido);
+  };
 
-    const aoMudarNota = (e) => {
+  const validarIsNaN = (valor) => {
+    if (!isNaN(valor)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
 
-    };
+  const aoMudarNota = (e) => {
+    e.preventDefault();
+    const notaSelecionada = e.target.value;
+    setNota(notaSelecionada);
+    validarPreenchido(notaSelecionada)
+      ? setMensagemNota("")
+      : setMensagemNota("Preencher nota!");
 
-    const aoMudarAtendimento = (e) => {
+    if (validarIsNaN(notaSelecionada)) {
+      setMensagemNota("Preencher nota!");
+    } else {
+      setMensagemNota("");
+    }
+    console.log("ao mudar nota", notaSelecionada);
+  };
 
-    };
+  const aoMudarAtendimento = (e) => {
+    const atendimentoInserido = e.target.value;
+    validarPreenchido(atendimentoInserido)
+      ? setMensagemAtendimento("")
+      : setMensagemAtendimento("Preencher atendimento!");
+    setAtendimento(atendimentoInserido);
+  };
 
-    const handleAvaliacao = (e) => {
+  const aoMudarObservacoes = (e) => {
+    const observacoesInseridas = e.target.value;
+    setObservacoes(observacoesInseridas);
+  };
 
-    };
+  const handleAvaliacao = (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    // showDropdownMenu = (e) => {
-    //     e.preventDefault();
-    //     setState({ displayMenu: true }, () => {
-    //     document.addEventListener('click', this.hideDropdownMenu);
-    //     });
-    //   }
-    
-    //   hideDropdownMenu = (e) => {
-    //    setState({ displayMenu: false }, () => {
-    //       document.removeEventListener('click', this.hideDropdownMenu);
-    //     });
-    
-    //   }
+    // Valida campos obrigatórios
+    validarPreenchido(titulo)
+      ? setMensagemTitulo("")
+      : setMensagemTitulo("Preencher título!");
 
-    const dropdownMenu = (e) => {
-        e.preventDefault();
-        setMostrarDropdown(!mostrarDropdown);
+    console.log("nota", nota);
+
+    if (!nota) {
+      setMensagemNota("Preencher nota!");
+      setLoading(false);
+      return;
+    } else {
+      setMensagemNota("");
+    }
+
+    if (validarIsNaN(nota)) {
+      setMensagemNota("Preencher nota!");
+      setLoading(false);
+      return;
+    } else {
+      setMensagemNota("");
+    }
+
+    console.log("mensagemNota", mensagemNota);
+
+    validarPreenchido(atendimento)
+      ? setMensagemAtendimento("")
+      : setMensagemAtendimento("Preencher atendimento!");
+
+    if (!mensagemTitulo && !mensagemNota && !mensagemAtendimento) {
+      const dados = {
+        titulo: titulo,
+        nota: nota,
+        atendimento: atendimento,
+        observacoes: observacoes,
+        usuario: usuario,
       };
+      dispatch(criar(dados))
+        .then((resposta) => {
+          console.log("mensagem sucesso", resposta);
+          setMensagemBackend(resposta.message);
+          setTipoMensagemBackend("s");
+        })
+        .catch((erro) => {
+          console.log("mensagem erro", erro);
+          setMensagemBackend(erro);
+          setTipoMensagemBackend("e");
+        });
+    }
 
-    return (
-        <div className="container-fluid">
+    setLoading(false);
+  };
 
-          <div className="card">
-    
-            <form onSubmit={handleAvaliacao}>
-          
-            <div className="form-group row">
-
-              <div className="form-group col-md-10">
-
+  return (
+    <div className="container-fluid">
+      <div className="card">
+        <form onSubmit={handleAvaliacao}>
+          <div className="form-row">
+            <div className="col-md-10">
+              <div className="form-group">
                 <label htmlFor="titulo">Título</label>
                 <input
                   type="text"
@@ -90,74 +161,105 @@ const CriarAvaliacao = (props) => {
                   onChange={aoMudarTitulo}
                 />
 
-                {mensagemTitulo &&
-              <div className="alert alert-danger" role="alert">
-                {mensagemTitulo}
+                {mensagemTitulo && (
+                  <div className="alert alert-danger" role="alert">
+                    {mensagemTitulo}
+                  </div>
+                )}
               </div>
-              }
+            </div>
 
-              </div>
-
-              <div className="form-group col-md-2">
-              <label htmlFor="titulo">Nota</label>
-                <select className="custom-select" id="inputNota">
-                    <option defaultValue>Escolha</option>
-                    {rangeAvaliacoes}
+            <div className="col-md-2">
+              <div className="form-group">
+                <label htmlFor="titulo">Nota</label>
+                <select
+                  onChange={aoMudarNota}
+                  value={nota}
+                  className="custom-select"
+                  id="inputNota"
+                >
+                  <option defaultValue>Escolha</option>
+                  {rangeAvaliacoes}
                 </select>
 
-                {mensagemTitulo &&
-              <div className="alert alert-danger" role="alert">
-                {mensagemTitulo}
-              </div>
-              }
-
-              </div>
-
-            </div>
-    
-            <div className="form-group row">
-
-            <div className="form-group col">
-            <label htmlFor="titulo">Atendimento</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="atendimento"
-                  value={atendimento}
-                  onChange={aoMudarAtendimento}
-                />
-
-                {mensagemAtendimento &&
-              <div className="alert alert-danger" role="alert">
-                {mensagemAtendimento}
-              </div>
-              }
-            </div>
-
-            </div>
-
-              <div className="form-group">
-                <button className="btn btn-primary btn-block" disabled={loading}>
-                  {loading && (
-                    <span className="spinner-border spinner-border-sm"></span>
-                  )}
-                  <span>Avaliar</span>
-                </button>
-              </div>
-    
-              {mensagem && (
-                <div className="form-group">
-                  <div className={mensagemBackend ? "alert alert-danger" : "alert alert-primary"} role="alert">
-                    {mensagem}
+                {mensagemNota && (
+                  <div className="alert alert-danger" role="alert">
+                    {mensagemNota}
                   </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group col">
+              <label htmlFor="titulo">Atendimento</label>
+              <input
+                type="text"
+                className="form-control"
+                name="atendimento"
+                value={atendimento}
+                onChange={aoMudarAtendimento}
+              />
+
+              {mensagemAtendimento && (
+                <div className="alert alert-danger" role="alert">
+                  {mensagemAtendimento}
                 </div>
               )}
-
-            </form>
+            </div>
           </div>
-        </div>
-      );
 
+          <div className="form-row">
+            <div className="form-group col">
+              <label htmlFor="titulo">Observações</label>
+              <textarea
+                type="text"
+                className="form-control"
+                name="observacoes"
+                value={observacoes}
+                onChange={aoMudarObservacoes}
+              />
+
+              {mensagemAtendimento && (
+                <div className="alert alert-danger" role="alert">
+                  {mensagemAtendimento}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group col">
+              <button className="btn btn-primary btn-block" disabled={loading}>
+                {loading && (
+                  <span className="spinner-border spinner-border-sm"></span>
+                )}
+                <span>Avaliar</span>
+              </button>
+            </div>
+          </div>
+
+          {mensagemBackend && (
+            <div className="form-group row">
+              <div className="form-group col">
+                <div
+                  className={
+                    tipoMensagemBackend === "e"
+                      ? "alert alert-danger"
+                      : "alert alert-primary"
+                  }
+                  role="alert"
+                >
+                  {mensagem}
+                </div>
+              </div>
+            </div>
+          )}
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default CriarAvaliacao;

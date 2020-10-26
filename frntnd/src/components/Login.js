@@ -1,50 +1,43 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link } from "react-router-dom";
 
-// import Form from "react-validation/build/form";
-// import Input from "react-validation/build/input";
-// import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-
 import { login } from "../actions/auth";
 
 // pagina login
 const Login = (props) => {
-  // const form = useRef();
-  // const checkBtn = useRef();
-
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
   const [mensagemEmail, setMensagemEmail] = useState("");
   const [mensagemSenha, setMensagemSenha] = useState("");
 
-  const { estaLogado } = useSelector(state => state.auth);
-  const { mensagem } = useSelector(state => state.mensagem);
+  const { estaLogado } = useSelector((state) => state.auth);
+  const { mensagem } = useSelector((state) => state.mensagem);
 
   const dispatch = useDispatch();
 
   const aoMudarEmail = (e) => {
     const email = e.target.value;
-    
-    if(!email){
+
+    if (!email) {
       setMensagemEmail("Este campo é requerido!");
-    } else if(!isEmail(email)) {
+    } else if (!isEmail(email)) {
       setMensagemEmail("Este não é um email válido.");
     } else {
       setMensagemEmail("");
     }
-    
+
     setEmail(email);
   };
 
   const aoMudarSenha = (e) => {
     const senha = e.target.value;
 
-    if(!senha){
+    if (!senha) {
       setMensagemSenha("Este campo é requerido!");
-    } else if(senha.length < 7) {
+    } else if (senha.length < 7) {
       setMensagemSenha("É necessário 6 dígitos ao menos na senha!");
     } else {
       setMensagemSenha("");
@@ -65,22 +58,22 @@ const Login = (props) => {
     if (!mensagemEmail && !mensagemSenha) {
       dispatch(login(email, senha))
         .then(() => {
-          console.log('Sucesso login!');
+          console.log("Sucesso login!");
           props.history.push("/perfil");
           window.location.reload();
         })
         .catch(() => {
-          console.log('Erro login!', mensagem, estaLogado);
+          console.log("Erro login!", mensagem, estaLogado);
           setLoading(false);
         });
     } else {
-      console.log('Erro tela login!');
+      console.log("Erro tela login!");
       setLoading(false);
     }
   };
 
   if (estaLogado) {
-    console.log('Esta logado!');
+    console.log("Esta logado!");
     return <Redirect to="/perfil" />;
   }
 
@@ -101,14 +94,15 @@ const Login = (props) => {
               className="form-control"
               name="email"
               value={email}
-              onChange={e => aoMudarEmail(e)}
+              onChange={(e) => aoMudarEmail(e)}
               // validations={[validarRequerido, validarEmail]}
             />
           </div>
-          { mensagemEmail &&
-          <div className="alert alert-danger" role="alert">
-            {mensagemEmail}
-          </div>}
+          {mensagemEmail && (
+            <div className="alert alert-danger" role="alert">
+              {mensagemEmail}
+            </div>
+          )}
 
           <div className="form-group">
             <label htmlFor="senha">Senha</label>
@@ -117,17 +111,18 @@ const Login = (props) => {
               className="form-control"
               name="senha"
               value={senha}
-              onChange={e => aoMudarSenha(e)}
+              onChange={(e) => aoMudarSenha(e)}
               // validations={[validarRequerido]}
             />
           </div>
-          { mensagemSenha &&
-          <div className="alert alert-danger" role="alert">
-            {mensagemSenha}
-          </div>}
+          {mensagemSenha && (
+            <div className="alert alert-danger" role="alert">
+              {mensagemSenha}
+            </div>
+          )}
 
           <Link to={"/recuperar/senha"} className="form-group">
-          Esqueceu sua senha?
+            Esqueceu sua senha?
           </Link>
 
           <div className="form-group">

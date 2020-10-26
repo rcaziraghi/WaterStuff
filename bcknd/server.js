@@ -1,13 +1,12 @@
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
 
-
 var corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:8081'
+  origin: process.env.CORS_ORIGIN || "http://localhost:8081",
 };
 
 app.use(cors(corsOptions));
@@ -33,16 +32,19 @@ app.get("/", (req, res) => {
 });
 
 // rota de autenticação
-require('./src/routes/auth.routes')(app);
+require("./src/routes/auth.routes")(app);
 
 // rota de usuario
-require('./src/routes/usuario.routes')(app);
+require("./src/routes/usuario.routes")(app);
 
 // rota de instalacao
-require('./src/routes/instalacao.routes')(app);
+require("./src/routes/instalacao.routes")(app);
 
 // rota de fatura
-require('./src/routes/fatura.routes')(app);
+require("./src/routes/fatura.routes")(app);
+
+// rota de avaliações
+require("./src/routes/avaliacao.routes")(app);
 
 // configura portas, aguarda requests
 const PORT = process.env.PORT || 8080;
