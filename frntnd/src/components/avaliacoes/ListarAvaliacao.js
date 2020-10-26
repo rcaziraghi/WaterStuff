@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import AvaliacaoModal from "./AvaliacaoModal";
-import { Card, Cardcolumns, Badge } from "react-bootstrap";
+import { Card, CardColumns, Badge } from "react-bootstrap";
 import AvaliacaoService from "../../services/avaliacao.service";
 import AuthService from "../../services/auth.service";
 
@@ -75,12 +75,13 @@ export default class listarAvaliacao extends Component {
           return (
             <Card key={["card", avaliacao.id]}>
               <Card.Body key={["cardBody", avaliacao.id]}>
-                <Card.Title>
-                  {avaliacao.atendimento} -
-                  <Badge variant="light">{avaliacao.nota}</Badge>
-                </Card.Title>
+                <Card.Title>{avaliacao.atendimento}</Card.Title>
                 <Card.Text>
-                  <h5>{avaliacao.titulo}</h5>
+                  <strong>
+                    {avaliacao.titulo} -
+                    <Badge variant="light">{avaliacao.nota}</Badge>
+                  </strong>
+                  <br></br>
                   {avaliacao.observacoes}
                 </Card.Text>
                 <Card.Text>
@@ -88,6 +89,9 @@ export default class listarAvaliacao extends Component {
                     {moment(avaliacao.createdAt).fromNow()}
                   </small>
                 </Card.Text>
+                <Card.Link onClick={() => this.abrirModal(avaliacao.id)}>
+                  Detalhes
+                </Card.Link>
               </Card.Body>
             </Card>
           );
@@ -96,7 +100,7 @@ export default class listarAvaliacao extends Component {
 
     return (
       <div>
-        <div className="card-columns">{cards}</div>
+        <CardColumns>{cards}</CardColumns>
         <AvaliacaoModal
           avaliacao={this.state.avaliacaoModal}
           show={this.state.modalAberto}

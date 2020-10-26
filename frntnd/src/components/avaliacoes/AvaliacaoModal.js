@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { Modal, Button, Badge } from "react-bootstrap";
 import PropTypes from "prop-types";
 
+import moment from "moment";
+import "moment/locale/pt";
+moment.locale("pt");
+
 class AvaliacaoModal extends Component {
   constructor(props) {
     super(props);
@@ -25,16 +29,19 @@ class AvaliacaoModal extends Component {
         animation={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>{this.props.avaliacao.titulo}</Modal.Title>
+          <Modal.Title>
+            {this.props.avaliacao.titulo}
+            <Badge variant="light">{this.props.avaliacao.nota}</Badge>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h3>
-            {this.props.avaliacao.atendimento}
-            <Badge variant="light">{this.props.avaliacao.nota}</Badge>
-          </h3>
+          <h3>{this.props.avaliacao.atendimento}</h3>
           {this.props.avaliacao.observacoes}
         </Modal.Body>
         <Modal.Footer>
+          <small className="text-muted">
+            {moment(this.props.avaliacao.createdAt).fromNow()}
+          </small>
           <Button variant="secondary" onClick={this.fechar}>
             Fechar
           </Button>

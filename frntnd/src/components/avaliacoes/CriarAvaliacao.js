@@ -220,12 +220,6 @@ const CriarAvaliacao = (props) => {
                 value={observacoes}
                 onChange={aoMudarObservacoes}
               />
-
-              {mensagemAtendimento && (
-                <div className="alert alert-danger" role="alert">
-                  {mensagemAtendimento}
-                </div>
-              )}
             </div>
           </div>
 
