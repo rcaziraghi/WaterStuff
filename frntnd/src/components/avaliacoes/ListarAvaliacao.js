@@ -24,6 +24,8 @@ export default class listarAvaliacao extends Component {
 
   componentDidMount() {
     if (!this.state.usuario) {
+      this.props.history.push("/login");
+      window.location.reload();
     }
     AvaliacaoService.listar(this.state.usuario)
       .then((resposta) => {

@@ -18,6 +18,10 @@ export default class listarInstalacao extends Component {
   }
 
   componentDidMount() {
+    if (!this.state.usuario) {
+      this.props.history.push("/login");
+      window.location.reload();
+    }
     let Estado = { ...this.state };
     console.log("Estado", Estado);
     InstalacaoService.listar(Estado.usuario.email)

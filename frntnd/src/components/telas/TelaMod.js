@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import servicoUsuario from "../../services/usuario.service";
 
-const TelaMod = () => {
+const TelaMod = (props) => {
   const [conteudo, setConteudo] = useState("");
+
+  const { estaLogado, usuario } = useSelector((state) => state.auth);
+
+  // Se não está logado
+  if (!estaLogado) {
+    props.history.push("/login");
+    window.location.reload();
+  }
 
   useEffect(() => {
     servicoUsuario.obterTelaMod().then(
