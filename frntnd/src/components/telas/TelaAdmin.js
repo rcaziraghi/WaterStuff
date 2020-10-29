@@ -6,7 +6,7 @@ import servicoUsuario from "../../services/usuario.service";
 const TelaAdmin = (props) => {
   const [conteudo, setConteudo] = useState("");
 
-  const { estaLogado, usuario } = useSelector((state) => state.auth);
+  const { estaLogado } = useSelector((state) => state.auth);
 
   // Se não está logado
   if (!estaLogado) {

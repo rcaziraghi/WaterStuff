@@ -7,9 +7,9 @@ import "moment/locale/pt";
 moment.locale("pt");
 
 class AvaliacaoModal extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   fechar = (e) => {
     this.props.fecharModal && this.props.fecharModal(e);
