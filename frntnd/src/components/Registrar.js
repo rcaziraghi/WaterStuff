@@ -6,9 +6,10 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import pt from "date-fns/locale/pt";
 import moment from "moment";
 
-import Select from "react-select";
+// import Select from "react-select";
 
 import AuthService from "../services/auth.service";
+import EstadoService from "../services/estado.service";
 
 registerLocale("pt", pt);
 
@@ -74,12 +75,13 @@ export default class Registrar extends Component {
           cidade: "",
           estado: "",
         },
-        ufs: [
+        estados: [
           { value: "RS", label: "Rio Grande do Sul" },
           { value: "SC", label: "Santa Catarina" },
           { value: "PR", label: "Paraná" },
           { value: "SP", label: "São Paulo" },
         ],
+        ufs: [],
       },
     };
 
@@ -91,9 +93,35 @@ export default class Registrar extends Component {
     this.aoMudarEstado = this.aoMudarEstado.bind(this);
   }
 
+  async componentDidMount() {
+    let usuario = AuthService.usuarioLogado();
+    if (usuario) {
+      this.props.history.push("/home");
+      window.location.reload();
+    }
+    let Estado = { ...this.state.estado };
+    Estado.carregando = true;
+    this.setState({
+      estado: Estado,
+    });
+    console.log("estado", Estado);
+    Estado.ufs = await EstadoService.listar().then((dados) => {
+      console.log("dados", typeof dados);
+      return Object.entries(dados)[0][1].map((dados) => {
+        return { value: dados.sigla, label: dados.estado };
+      });
+    });
+    Estado.dados.estado = Estado.ufs[0].label;
+    Estado.carregando = false;
+    this.setState({
+      estado: Estado,
+    });
+  }
+
   aoMudarEstado(e) {
     let Estado = { ...this.state.estado };
-    Estado.dados.estado = e.value;
+    console.log("estado", e.target.value);
+    Estado.dados.estado = e.target.value;
     this.setState({
       estado: Estado,
     });
@@ -255,7 +283,6 @@ export default class Registrar extends Component {
 
   render() {
     const { erro } = this.state.estado;
-
     return (
       <div className="col-md-12">
         <div className="card cardRegistrar-container">
@@ -409,11 +436,17 @@ export default class Registrar extends Component {
 
             <div className="form-group">
               <label htmlFor="estado"> Estado: </label>
-              <Select
+              <select
+                className="form-control"
                 name="estado"
-                options={this.state.estado.ufs}
-                onChange={this.aoMudarEstado}
-              ></Select>
+                onChange={(e) => this.aoMudarEstado(e)}
+              >
+                {this.state.estado.ufs.map((dados) => (
+                  <option key={dados.value} value={dados.label}>
+                    {dados.label}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {erro.estado.length > 0 && (
@@ -449,10 +482,10 @@ export default class Registrar extends Component {
             <div className="form-group">
               <button
                 className="btn btn-primary btn-block"
-                disabled={this.state.carregando}
+                disabled={this.state.estado.carregando}
               >
                 {" "}
-                {this.state.carregando && this.state.concordo ? (
+                {this.state.estado.carregando && this.state.estado.concordo ? (
                   <span className="spinner-border spinner-border-sm"> </span>
                 ) : (
                   "Cadastrar"

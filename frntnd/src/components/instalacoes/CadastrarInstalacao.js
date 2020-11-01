@@ -171,7 +171,6 @@ const CadastrarInstalacao = (props) => {
               </div>
             </div>
           )}
-          {/* <CheckButton style={{ display: "none" }} ref={checkBtn} /> */}
         </form>
       </div>
     </div>
