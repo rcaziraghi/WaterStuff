@@ -46,6 +46,9 @@ require("./src/routes/fatura.routes")(app);
 // rota de avaliações
 require("./src/routes/avaliacao.routes")(app);
 
+// rota de estados
+require("./src/routes/estado.routes")(app);
+
 // configura portas, aguarda requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

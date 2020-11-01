@@ -24,6 +24,7 @@ db.cargo = require("./cargo.model.js")(sequelize, Sequelize);
 db.instalacao = require("./instalacao.model.js")(sequelize, Sequelize);
 db.fatura = require("./fatura.model.js")(sequelize, Sequelize);
 db.avaliacao = require("./avaliacao.model.js")(sequelize, Sequelize);
+db.estado = require("./estado.model.js")(sequelize, Sequelize);
 
 // Monta a relacao entre instalacao e cargo
 db.cargo.belongsToMany(db.usuario, {
