@@ -18,18 +18,34 @@ export default class cadastrarUsuario extends Component {
                 idperfil: 0,
                 dtNascimento: new Date(moment().subtract(16, "years")),
                 cidade: '',
-                siglaEstado: '',
+                estado: '',
             },
+            carregando: false,
             usuarioLogado: authService.usuarioLogado(),
-            estados: estadoService.listar(),
+            ufs: {},
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (!this.state.usuario) {
             this.props.history.push("/login");
             window.location.reload();
           }
+        let Estado = { ...this.state };
+        this.setState({
+            carregando: true,
+        });
+        console.log("estado", Estado);
+        Estado.ufs = await EstadoService.listar().then((dados) => {
+            console.log("dados", typeof dados);
+            return Object.entries(dados)[0][1].map((dados) => {
+                return { value: dados.sigla, label: dados.estado };
+            });
+        });
+        Estado.estado = Estado.ufs[0].label;
+        this.setState({
+            carregando: false,
+        });
     };
 
     render() {
