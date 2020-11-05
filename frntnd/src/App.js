@@ -16,6 +16,7 @@ import RecuperarSenha from "./components/RecuperarSenha";
 import CadastrarInstalacao from "./components/instalacoes/CadastrarInstalacao";
 import ListarInstalacao from "./components/instalacoes/ListarInstalacao";
 import ListarFatura from "./components/faturas/ListarFatura";
+import CadastrarUsuario from "./components/usuario/CadastrarUsuario";
 
 import ListarAvaliacao from "./components/avaliacoes/ListarAvaliacao";
 import CriarAvaliacao from "./components/avaliacoes/CriarAvaliacao";
@@ -30,22 +31,20 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 
-
 const AppWrapper = () => {
+  const middleware = [thunk];
 
-const middleware = [thunk];
-
-const store = createStore(
+  const store = createStore(
     rootReducer,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+    composeWithDevTools(applyMiddleware(...middleware))
+  );
 
   return (
     <Provider store={store}>
       <App />
     </Provider>
-  )
-}
+  );
+};
 
 const App = () => {
   const [mostrarTelaMod, setMostrarTelaMod] = useState(false);
@@ -147,11 +146,24 @@ const App = () => {
             <Route exact path="/registrar" component={Registrar} />
             <Route exact path="/perfil" component={Perfil} />
             <Route exact path="/recuperar/senha" component={RecuperarSenha} />
-            <Route exact path="/instalacao/cadastro" component={CadastrarInstalacao} />
-            <Route exact path="/instalacao/listar" component={ListarInstalacao} />
+            <Route
+              exact
+              path="/instalacao/cadastro"
+              component={CadastrarInstalacao}
+            />
+            <Route
+              exact
+              path="/instalacao/listar"
+              component={ListarInstalacao}
+            />
             <Route exact path="/fatura/listar" component={ListarFatura} />
             <Route exact path="/avaliacao/listar" component={ListarAvaliacao} />
             <Route exact path="/avaliacao/criar" component={CriarAvaliacao} />
+            <Route
+              exact
+              path="/usuario/registrar"
+              component={CadastrarUsuario}
+            />
             <Route path="/usuario" component={TelaUsuario} />
             <Route path="/mod" component={TelaMod} />
             <Route path="/admin" component={TelaAdmin} />

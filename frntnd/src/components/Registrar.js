@@ -75,12 +75,12 @@ export default class Registrar extends Component {
           cidade: "",
           estado: "",
         },
-        estados: [
-          { value: "RS", label: "Rio Grande do Sul" },
-          { value: "SC", label: "Santa Catarina" },
-          { value: "PR", label: "Paraná" },
-          { value: "SP", label: "São Paulo" },
-        ],
+        // estados: [
+        //   { value: "RS", label: "Rio Grande do Sul" },
+        //   { value: "SC", label: "Santa Catarina" },
+        //   { value: "PR", label: "Paraná" },
+        //   { value: "SP", label: "São Paulo" },
+        // ],
         ufs: [],
       },
     };
