@@ -11,7 +11,8 @@ const registrar = (dados) => {
     senha: dados.senha,
     dtNascimento: dados.dtNascimento,
     cidade: dados.cidade,
-    siglaEstado: dados.estado
+    siglaEstado: dados.estado,
+    cargos: dados.cargos,
   });
 };
 
@@ -38,21 +39,23 @@ const logout = () => {
 const recuperarSenha = (email) => {
   console.log("chegou registrar");
   console.log(email);
-  return axios.post(API_URL + "recuperar/senha", {
-    email
-  }).then((response) => {
-    return response.data;
-  });
+  return axios
+    .post(API_URL + "recuperar/senha", {
+      email,
+    })
+    .then((response) => {
+      return response.data;
+    });
 };
 
 const usuarioLogado = () => {
-  return JSON.parse(localStorage.getItem('usuario'));
-}
+  return JSON.parse(localStorage.getItem("usuario"));
+};
 
 export default {
   registrar,
   login,
   logout,
   recuperarSenha,
-  usuarioLogado
+  usuarioLogado,
 };

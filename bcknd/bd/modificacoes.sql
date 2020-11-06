@@ -24,3 +24,8 @@ UPDATE `mydb`.`estado` SET `estado` = 'Pará' WHERE (`id` = '13');
 UPDATE `mydb`.`estado` SET `estado` = 'Paraná' WHERE (`id` = '15');
 UPDATE `mydb`.`estado` SET `estado` = 'Piauí' WHERE (`id` = '17');
 UPDATE `mydb`.`estado` SET `estado` = 'São Paulo' WHERE (`id` = '24');
+
+--05/11/2020
+UPDATE `mydb`.`cargo` SET `nome` = 'USUARIO' WHERE (`id` = '1');
+UPDATE `mydb`.`cargo` SET `nome` = 'MODERADOR' WHERE (`id` = '2');
+UPDATE `mydb`.`cargo` SET `nome` = 'ADMIN' WHERE (`id` = '3');

@@ -92,7 +92,7 @@ login = (req, res) => {
       var authorities = [];
       usuario.getCargos().then((cargos) => {
         for (let i = 0; i < cargos.length; i++) {
-          authorities.push("CARGO_" + cargos[i].nome.toUpperCase());
+          authorities.push(cargos[i].nome.toUpperCase());
         }
         console.log(authorities);
         res.status(200).send({

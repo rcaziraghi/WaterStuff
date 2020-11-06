@@ -38,7 +38,7 @@ const validarFormulario = (estado) => {
   }
 
   // Analisa as variaveis (todas variaveis preenchidas)
-  for (const [key, value] of Object.entries(estado.dados)) {
+  for (const [key, value] of Object.entries(estado.usuario)) {
     if (!value) {
       console.log("erro estado", key, value);
       return false;
@@ -58,10 +58,11 @@ export default class cadastrarUsuario extends Component {
           email: "",
           nomeCompleto: "",
           senha: "",
-          idperfil: 0,
+          // idperfil: 0,
           dtNascimento: new Date(moment().subtract(16, "years")),
           cidade: "",
           estado: "",
+          cargos: [],
         },
         erro: {
           nomeCompleto: "",
@@ -71,10 +72,12 @@ export default class cadastrarUsuario extends Component {
           dtNascimento: "",
           cidade: "",
           estado: "",
+          cargos: "",
         },
         mensagemErro: [],
         carregando: false,
         ufs: [],
+        cargos: ["MODERADOR", "ADMIN", "USUARIO"],
         usuarioLogado: "",
       },
     };
@@ -87,8 +90,11 @@ export default class cadastrarUsuario extends Component {
       window.location.reload();
     }
     console.log("usuario", usuarioLogado);
-    console.log("usuario admin?", usuarioLogado.cargos.includes("CARGO_ADMIN"));
-    // if (!this.state.usuario.cargo.includes[])
+    console.log("usuario admin?", usuarioLogado.cargos.includes("ADMIN"));
+    if (!usuarioLogado.cargos.includes("ADMIN")) {
+      this.props.history.push("/home");
+      window.location.reload();
+    }
     let Estado = this.state.estado;
     Estado.carregando = true;
     this.setState({
@@ -101,7 +107,8 @@ export default class cadastrarUsuario extends Component {
         return { value: dados.sigla, label: dados.estado };
       });
     });
-    Estado.estado = Estado.ufs[0].label;
+    console.log("UF inicial", Estado.ufs[0].label);
+    Estado.usuario.estado = Estado.ufs[0].label;
     Estado.carregando = false;
     this.setState({
       estado: Estado,
@@ -186,6 +193,16 @@ export default class cadastrarUsuario extends Component {
     });
   }
 
+  aoMudarCargo(e) {
+    let Estado = { ...this.state.estado };
+    let cargos = Array.from(e.target.selectedOptions, (option) => option.value);
+    console.log("cargo", cargos);
+    Estado.usuario.cargos = cargos;
+    this.setState({
+      estado: Estado,
+    });
+  }
+
   handleRegistrar = (e) => {
     e.preventDefault();
 
@@ -199,22 +216,6 @@ export default class cadastrarUsuario extends Component {
       estado: Estado,
     });
 
-    // if (!Estado.concordo) {
-    //   Estado.mensagemErro.push(
-    //     "Favor concordar com os termos de uso e serviço."
-    //   );
-
-    //   this.setState({
-    //     estado: Estado,
-    //   });
-    // } else {
-    //   Estado.mensagemErro = [];
-
-    //   this.setState({
-    //     estado: Estado,
-    //   });
-    // }
-
     if (Estado.usuario.senha !== Estado.usuario.confSenha) {
       Estado.erro.senha = "As duas senhas não conferem.";
       Estado.erro.confSenha = "As duas senhas não conferem.";
@@ -223,6 +224,19 @@ export default class cadastrarUsuario extends Component {
         estado: Estado,
       });
     }
+
+    if (
+      !Array.isArray(Estado.usuario.cargos) ||
+      !Estado.usuario.cargos.length
+    ) {
+      Estado.erro.cargos = "Por favor selecione um cargo!";
+
+      this.setState({
+        estado: Estado,
+      });
+    }
+
+    console.log("estado", Estado);
 
     if (validarFormulario(Estado) && Estado.mensagemErro.length < 1) {
       console.log("Estado valido:", Estado);
@@ -272,13 +286,13 @@ export default class cadastrarUsuario extends Component {
     return (
       <div className="col-md-12">
         <div className="card cardRegistrar-container">
-          <img
+          {/* <img
             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
             alt="profile-img"
             className="profile-img-card"
-          />
+          /> */}
 
-          <form onSubmit={() => this.handleRegistrar} noValidate>
+          <form onSubmit={(e) => this.handleRegistrar(e)} noValidate>
             <div className="form-group">
               <label htmlFor="nomeCompleto"> Nome completo</label>
               <input
@@ -444,16 +458,30 @@ export default class cadastrarUsuario extends Component {
               </div>
             )}
 
-            {/* <div className="form-group">
-              <input
-                className="form-group"
-                id="concordo"
-                name="concordo"
-                type="checkbox"
-                onChange={this.aoMudarConcordo}
-              />{" "}
-              &nbsp; Concordo com os termos de uso e serviço.
-            </div> */}
+            <div className="form-group">
+              <label htmlFor="cargos"> Cargo(s): </label>
+              <select
+                multiple={true}
+                className="form-control"
+                name="cargos"
+                onChange={(e) => this.aoMudarCargo(e)}
+              >
+                {this.state.estado.cargos.map((cargo) => (
+                  <option key={cargo} value={cargo}>
+                    {cargo}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {erro.cargos.length > 0 && (
+              <div className="form-group">
+                <div className="alert alert-danger" role="alert">
+                  {" "}
+                  {erro.cargos}
+                </div>
+              </div>
+            )}
 
             {this.state.estado.mensagemErro.length > 0 && (
               <div className="form-group">

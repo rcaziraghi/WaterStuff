@@ -61,8 +61,8 @@ const App = () => {
 
   useEffect(() => {
     if (usuarioAtual) {
-      setMostrarTelaMod(usuarioAtual.cargos.includes("CARGO_MODERADOR"));
-      setMostrarTelaAdmin(usuarioAtual.cargos.includes("CARGO_ADMIN"));
+      setMostrarTelaMod(usuarioAtual.cargos.includes("MODERADOR"));
+      setMostrarTelaAdmin(usuarioAtual.cargos.includes("ADMIN"));
     }
   }, [usuarioAtual]);
 
