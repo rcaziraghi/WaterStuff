@@ -7,7 +7,7 @@ const CriarAvaliacao = (props) => {
   const { estaLogado, usuario } = useSelector((state) => state.auth);
   const { mensagem } = useSelector((state) => state.mensagem);
 
-  // Se não está logado
+  // Valida se está logado, deverá para usar o objeto
   if (!estaLogado) {
     props.history.push("/login");
     window.location.reload();

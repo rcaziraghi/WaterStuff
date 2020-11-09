@@ -184,7 +184,7 @@ const TelaUsuario = () => {
               >
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item">
-                    <Link to={"/denuncia/criar"} className="form-group">
+                    <Link to={"/denuncia/cadastrar"} className="form-group">
                       Protocolar denúncia
                     </Link>
                   </li>

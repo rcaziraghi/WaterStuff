@@ -25,6 +25,7 @@ db.instalacao = require("./instalacao.model.js")(sequelize, Sequelize);
 db.fatura = require("./fatura.model.js")(sequelize, Sequelize);
 db.avaliacao = require("./avaliacao.model.js")(sequelize, Sequelize);
 db.estado = require("./estado.model.js")(sequelize, Sequelize);
+db.denuncia = require("./denuncia.model.js")(sequelize, Sequelize);
 
 // Monta a relacao entre instalacao e cargo
 db.cargo.belongsToMany(db.usuario, {
@@ -50,5 +51,9 @@ db.fatura.belongsTo(db.instalacao);
 // Monta a relação entre usuário e avaliação
 db.usuario.hasMany(db.avaliacao, { onDelete: "CASCADE" });
 db.avaliacao.belongsTo(db.usuario);
+
+// Monta a relação entre usuário e denuncia
+db.usuario.hasMany(db.denuncia, { onDelete: "CASCADE" });
+db.denuncia.belongsTo(db.usuario);
 
 module.exports = db;

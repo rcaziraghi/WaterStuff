@@ -29,3 +29,29 @@ UPDATE `mydb`.`estado` SET `estado` = 'São Paulo' WHERE (`id` = '24');
 UPDATE `mydb`.`cargo` SET `nome` = 'USUARIO' WHERE (`id` = '1');
 UPDATE `mydb`.`cargo` SET `nome` = 'MODERADOR' WHERE (`id` = '2');
 UPDATE `mydb`.`cargo` SET `nome` = 'ADMIN' WHERE (`id` = '3');
+
+--08/11/2020
+
+ALTER TABLE `mydb`.`denuncia` 
+ADD COLUMN `subtitulo` VARCHAR(45) NULL AFTER `titulo`,
+CHANGE COLUMN `iddenuncia` `id` INT NOT NULL AUTO_INCREMENT ,
+CHANGE COLUMN `nome` `titulo` VARCHAR(45) NOT NULL ,
+CHANGE COLUMN `descritivo` `descritivo` VARCHAR(250) NOT NULL ,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`id`);
+;
+
+ALTER TABLE `mydb`.`denuncia` 
+DROP FOREIGN KEY `fk_denuncia_usuario1`;
+ALTER TABLE `mydb`.`denuncia` 
+CHANGE COLUMN `usuario_id` `usuarioId` INT NOT NULL ;
+ALTER TABLE `mydb`.`denuncia` 
+ADD CONSTRAINT `fk_denuncia_usuario1`
+  FOREIGN KEY (`usuarioId`)
+  REFERENCES `mydb`.`usuario` (`id`);
+
+ALTER TABLE `mydb`.`denuncia` 
+ADD COLUMN `createdAt` DATETIME NOT NULL AFTER `usuarioId`,
+ADD COLUMN `updatedAt` DATETIME NOT NULL AFTER `createdAt`;
+
+

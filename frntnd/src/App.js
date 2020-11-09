@@ -16,7 +16,8 @@ import RecuperarSenha from "./components/RecuperarSenha";
 import CadastrarInstalacao from "./components/instalacoes/CadastrarInstalacao";
 import ListarInstalacao from "./components/instalacoes/ListarInstalacao";
 import ListarFatura from "./components/faturas/ListarFatura";
-import CadastrarUsuario from "./components/usuario/CadastrarUsuario";
+import CadastrarUsuario from "./components/usuarios/CadastrarUsuario";
+import CadastrarDenuncia from "./components/denuncias/CadastrarDenuncia";
 
 import ListarAvaliacao from "./components/avaliacoes/ListarAvaliacao";
 import CriarAvaliacao from "./components/avaliacoes/CriarAvaliacao";
@@ -159,6 +160,11 @@ const App = () => {
             <Route exact path="/fatura/listar" component={ListarFatura} />
             <Route exact path="/avaliacao/listar" component={ListarAvaliacao} />
             <Route exact path="/avaliacao/criar" component={CriarAvaliacao} />
+            <Route
+              exact
+              path="/denuncia/cadastrar"
+              component={CadastrarDenuncia}
+            />
             <Route
               exact
               path="/usuario/registrar"
