@@ -15,4 +15,10 @@ module.exports = (app) => {
     [authJwt.verificaToken, authJwt.ehUsuario],
     controller.cadastrarDenuncia
   );
+
+  app.post(
+    "/api/denuncia/listar",
+    [authJwt.verificaToken, authJwt.ehUsuario],
+    controller.listarDenuncia
+  );
 };

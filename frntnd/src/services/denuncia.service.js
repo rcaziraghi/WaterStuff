@@ -25,6 +25,19 @@ const cadastrar = (dados) => {
     });
 };
 
+const listar = (dados) => {
+  return axios
+    .post(
+      API_URL + "listar",
+      { usuario: dados.usuario },
+      { headers: authHeader() }
+    )
+    .then((response) => {
+      return response.data;
+    });
+};
+
 export default {
   cadastrar,
+  listar,
 };

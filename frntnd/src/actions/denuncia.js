@@ -27,3 +27,29 @@ export const cadastrar = (dados) => (dispatch) => {
     }
   );
 };
+
+export const listar = (dados) => (dispatch) => {
+  return DenunciaService.listar(dados).then(
+    (resposta) => {
+      dispatch({
+        type: SETAR_MENSAGEM,
+        payload: resposta.message,
+      });
+
+      return Promise.resolve(resposta);
+    },
+    (error) => {
+      const mensagem =
+        (error.response && error.response.data & error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      dispatch({
+        type: SETAR_MENSAGEM,
+        payload: mensagem,
+      });
+
+      return Promise.reject(mensagem);
+    }
+  );
+};

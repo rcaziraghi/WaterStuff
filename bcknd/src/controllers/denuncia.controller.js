@@ -37,8 +37,47 @@ cadastrarDenuncia = (req, res) => {
   });
 };
 
+listarDenuncia = (req, res) => {
+  // Procura usuário das denuncias
+  Usuario.findOne({
+    where: {
+      email: req.body.usuario.email,
+    },
+  }).then((usuario) => {
+    // Se não houver usuário, retorna erro
+    if (!usuario) {
+      return res.status(403).send({
+        message: "Usuário não encontrado.",
+      });
+    } else {
+      Denuncia.findAll({
+        where: {
+          usuarioId: usuario.id,
+        },
+      })
+        .then((denuncias) => {
+          if (!denuncias) {
+            return res.status(403).send({
+              message: "Denuncia não cadastrada.",
+            });
+          } else {
+            res.send({
+              denuncias: denuncias,
+            });
+          }
+        })
+        .catch((erro) => {
+          res.status(500).send({
+            message: err.message,
+          });
+        });
+    }
+  });
+};
+
 const denuncia = {
   cadastrarDenuncia: cadastrarDenuncia,
+  listarDenuncia: listarDenuncia,
 };
 
 module.exports = denuncia;

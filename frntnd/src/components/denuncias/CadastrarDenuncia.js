@@ -20,7 +20,6 @@ const CadastrarDenuncia = (props) => {
   const [loading, setLoading] = useState("");
 
   const [mensagemTitulo, setMensagemTitulo] = useState("");
-  //   const [mensagemSubtitulo, setMensagemSubtitulo] = useState("");
   const [mensagemDescritivo, setMensagemDescritivo] = useState("");
   const [mensagemBackend, setMensagemBackend] = useState("");
   const [tipoMensagemBackend, setTipoMensagemBackend] = useState("");
@@ -45,9 +44,6 @@ const CadastrarDenuncia = (props) => {
 
   const aoMudarSubtitulo = (e) => {
     const subTituloInserido = e.target.value;
-    //   validarPreenchido(subTituloInserido)
-    //     ? setMensagemSubtitulo("")
-    //     : setMensagemSubtitulo("Preencher subtítulo!");
     setSubtitulo(subTituloInserido);
   };
 
@@ -125,11 +121,6 @@ const CadastrarDenuncia = (props) => {
                 onChange={aoMudarSubtitulo}
               />
 
-              {/* {mensagemSubtitulo && (
-                <div className="alert alert-danger" role="alert">
-                  {mensagemSubtitulo}
-                </div>
-              )} */}
             </div>
           </div>
           <div className="form-row">
