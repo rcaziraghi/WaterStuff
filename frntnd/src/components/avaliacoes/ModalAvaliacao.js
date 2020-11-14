@@ -6,26 +6,17 @@ import moment from "moment";
 import "moment/locale/pt";
 moment.locale("pt");
 
-class AvaliacaoModal extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-
+class ModalAvaliacao extends Component {
   fechar = (e) => {
     this.props.fecharModal && this.props.fecharModal(e);
   };
 
   render() {
-    console.log("show", this.props.show);
-    if (!this.props.show) {
-      console.log("hoje nao");
-      return null;
-    }
     return (
       <Modal
         show={this.props.show}
         onHide={this.fechar}
-        ref={this.props.ref}
+        // ref={this.props.ref}
         animation={false}
       >
         <Modal.Header closeButton>
@@ -45,18 +36,15 @@ class AvaliacaoModal extends Component {
           <Button variant="secondary" onClick={this.fechar}>
             Fechar
           </Button>
-          {/* <Button variant="primary" onClick={this.fechar}>
-            Save Changes
-          </Button> */}
         </Modal.Footer>
       </Modal>
     );
   }
 }
 
-AvaliacaoModal.propTypes = {
+ModalAvaliacao.propTypes = {
   fecharModal: PropTypes.func.isRequired,
   show: PropTypes.bool,
 };
 
-export default AvaliacaoModal;
+export default ModalAvaliacao;

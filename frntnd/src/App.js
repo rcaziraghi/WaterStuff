@@ -18,6 +18,7 @@ import ListarInstalacao from "./components/instalacoes/ListarInstalacao";
 import ListarFatura from "./components/faturas/ListarFatura";
 import CadastrarUsuario from "./components/usuarios/CadastrarUsuario";
 import CadastrarDenuncia from "./components/denuncias/CadastrarDenuncia";
+import ListarDenuncia from "./components/denuncias/ListarDenuncia";
 
 import ListarAvaliacao from "./components/avaliacoes/ListarAvaliacao";
 import CriarAvaliacao from "./components/avaliacoes/CriarAvaliacao";
@@ -165,6 +166,7 @@ const App = () => {
               path="/denuncia/cadastrar"
               component={CadastrarDenuncia}
             />
+            <Route exact path="/denuncia/listar" component={ListarDenuncia} />
             <Route
               exact
               path="/usuario/registrar"

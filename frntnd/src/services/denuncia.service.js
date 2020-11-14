@@ -26,6 +26,7 @@ const cadastrar = (dados) => {
 };
 
 const listar = (dados) => {
+  console.log("listar", dados);
   return axios
     .post(
       API_URL + "listar",

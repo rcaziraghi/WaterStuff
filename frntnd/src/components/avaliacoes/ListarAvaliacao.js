@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import AvaliacaoModal from "./AvaliacaoModal";
+import ModalAvaliacao from "./ModalAvaliacao";
 import { Card, CardColumns, Badge } from "react-bootstrap";
 import AvaliacaoService from "../../services/avaliacao.service";
 import AuthService from "../../services/auth.service";
@@ -12,7 +12,7 @@ moment.locale("pt");
 export default class listarAvaliacao extends Component {
   constructor(props) {
     super(props);
-    this.wrapper = React.createRef();
+    // this.wrapper = React.createRef();
 
     this.state = {
       avaliacoes: [],
@@ -29,7 +29,7 @@ export default class listarAvaliacao extends Component {
     }
     AvaliacaoService.listar(this.state.usuario)
       .then((resposta) => {
-        console.log("avaliacoes", resposta.avaliacoes);
+        // console.log("avaliacoes", resposta.avaliacoes);
         this.setState({
           avaliacoes: resposta.avaliacoes,
         });
@@ -54,7 +54,7 @@ export default class listarAvaliacao extends Component {
       "id",
       id
     );
-    console.log("busca id", avaliacaoSelecionada);
+    // console.log("busca id", avaliacaoSelecionada);
     this.setState({
       avaliacaoModal: avaliacaoSelecionada,
       modalAberto: true,
@@ -62,7 +62,7 @@ export default class listarAvaliacao extends Component {
   };
 
   fecharModal = () => {
-    console.log("fechar modal");
+    // console.log("fechar modal");
     this.setState({
       modalAberto: false,
     });
@@ -103,11 +103,11 @@ export default class listarAvaliacao extends Component {
     return (
       <div>
         <CardColumns>{cards}</CardColumns>
-        <AvaliacaoModal
+        <ModalAvaliacao
           avaliacao={this.state.avaliacaoModal}
           show={this.state.modalAberto}
           fecharModal={this.fecharModal}
-          key={this.wrapper}
+          // key={this.wrapper}
         />
       </div>
     );
