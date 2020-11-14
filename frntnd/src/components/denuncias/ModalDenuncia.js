@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Button, Badge } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 import moment from "moment";

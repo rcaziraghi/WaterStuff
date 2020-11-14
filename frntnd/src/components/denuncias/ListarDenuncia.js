@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import ModalDenuncia from "./ModalDenuncia";
-import { Card, CardGroup, Badge, CardColumns } from "react-bootstrap";
+import { Card, CardGroup } from "react-bootstrap";
 import DenunciaService from "../../services/denuncia.service";
 import AuthService from "../../services/auth.service";
 
@@ -104,11 +104,7 @@ export default class ListarDenuncia extends Component {
 
     return (
       <div>
-        <CardGroup>
-          {/* <CardColumns> */}
-          {cards}
-          {/* </CardColumns> */}
-        </CardGroup>
+        <CardGroup>{cards}</CardGroup>
         <ModalDenuncia
           denuncia={this.state.denunciaModal}
           show={this.state.modalAberto}
