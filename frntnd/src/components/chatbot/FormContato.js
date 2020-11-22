@@ -18,9 +18,6 @@ export default class Contato extends Component {
     const { nome, contato, duvida } = steps;
 
     this.setState({ nome, contato, duvida });
-    console.log("nome", nome);
-    console.log("contato", contato);
-    console.log("duvida", duvida);
   }
 
   render() {

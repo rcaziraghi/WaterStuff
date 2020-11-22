@@ -12,7 +12,6 @@ moment.locale("pt");
 export default class listarAvaliacao extends Component {
   constructor(props) {
     super(props);
-    // this.wrapper = React.createRef();
 
     this.state = {
       avaliacoes: [],
@@ -29,7 +28,6 @@ export default class listarAvaliacao extends Component {
     }
     AvaliacaoService.listar(this.state.usuario)
       .then((resposta) => {
-        // console.log("avaliacoes", resposta.avaliacoes);
         this.setState({
           avaliacoes: resposta.avaliacoes,
         });
@@ -54,7 +52,6 @@ export default class listarAvaliacao extends Component {
       "id",
       id
     );
-    // console.log("busca id", avaliacaoSelecionada);
     this.setState({
       avaliacaoModal: avaliacaoSelecionada,
       modalAberto: true,
@@ -62,7 +59,6 @@ export default class listarAvaliacao extends Component {
   };
 
   fecharModal = () => {
-    // console.log("fechar modal");
     this.setState({
       modalAberto: false,
     });
@@ -107,7 +103,6 @@ export default class listarAvaliacao extends Component {
           avaliacao={this.state.avaliacaoModal}
           show={this.state.modalAberto}
           fecharModal={this.fecharModal}
-          // key={this.wrapper}
         />
       </div>
     );

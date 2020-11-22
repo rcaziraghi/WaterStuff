@@ -13,12 +13,7 @@ class ModalAvaliacao extends Component {
 
   render() {
     return (
-      <Modal
-        show={this.props.show}
-        onHide={this.fechar}
-        // ref={this.props.ref}
-        animation={false}
-      >
+      <Modal show={this.props.show} onHide={this.fechar} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>
             {this.props.avaliacao.titulo}
