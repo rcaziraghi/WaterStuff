@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { Router, Switch, Route, Link } from "react-router-dom";
-import { ThemeProvider } from 'styled-components';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
-import ChatBot from "react-simple-chatbot";
 
 import Login from "./components/Login";
 import Registrar from "./components/Registrar";
@@ -22,6 +19,7 @@ import ListarFatura from "./components/faturas/ListarFatura";
 import CadastrarUsuario from "./components/usuarios/CadastrarUsuario";
 import CadastrarDenuncia from "./components/denuncias/CadastrarDenuncia";
 import ListarDenuncia from "./components/denuncias/ListarDenuncia";
+import CustomChatbot from "./components/chatbot/CustomChatbot";
 
 import ListarAvaliacao from "./components/avaliacoes/ListarAvaliacao";
 import CriarAvaliacao from "./components/avaliacoes/CriarAvaliacao";
@@ -52,17 +50,6 @@ const AppWrapper = () => {
 };
 
 const App = () => {
-  const temaChatbot = {
-    background: "##e9ecef",
-    fontFamily: "Roboto",
-    headerBgColor: "#343a40",
-    headerFontColor: "#fff",
-    headerFontSize: "15px",
-    botBubbleColor: "#e9ecef",
-    botFontColor: "#212529",
-    userBubbleColor: "#e9ecef",
-    userFontColor: "#212529",
-  };
   const [mostrarTelaMod, setMostrarTelaMod] = useState(false);
   const [mostrarTelaAdmin, setMostrarTelaAdmin] = useState(false);
 
@@ -191,17 +178,7 @@ const App = () => {
             <Route path="/admin" component={TelaAdmin} />
           </Switch>
         </div>
-        <ThemeProvider theme={temaChatbot}>
-        <ChatBot 
-          steps={[
-            {
-              id: "hello-world",
-              message: "Hello World!",
-              end: true,
-            },
-          ]}
-        />
-        </ThemeProvider>
+        {usuarioAtual && <CustomChatbot usuario={usuarioAtual} />}
       </div>
     </Router>
   );
