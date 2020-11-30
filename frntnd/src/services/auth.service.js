@@ -17,7 +17,6 @@ const registrar = (dados) => {
 };
 
 const login = (email, senha) => {
-  console.log("env", API_URL);
   return axios
     .post(API_URL + "login", {
       email,
