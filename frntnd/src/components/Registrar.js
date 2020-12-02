@@ -6,8 +6,6 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import pt from "date-fns/locale/pt";
 import moment from "moment";
 
-// import Select from "react-select";
-
 import AuthService from "../services/auth.service";
 import EstadoService from "../services/estado.service";
 
@@ -75,12 +73,6 @@ export default class Registrar extends Component {
           cidade: "",
           estado: "",
         },
-        // estados: [
-        //   { value: "RS", label: "Rio Grande do Sul" },
-        //   { value: "SC", label: "Santa Catarina" },
-        //   { value: "PR", label: "Paraná" },
-        //   { value: "SP", label: "São Paulo" },
-        // ],
         ufs: [],
       },
     };
@@ -104,7 +96,6 @@ export default class Registrar extends Component {
     this.setState({
       estado: Estado,
     });
-    console.log("estado", Estado);
     Estado.ufs = await EstadoService.listar().then((dados) => {
       console.log("dados", typeof dados);
       return Object.entries(dados)[0][1].map((dados) => {
@@ -120,7 +111,6 @@ export default class Registrar extends Component {
 
   aoMudarEstado(e) {
     let Estado = { ...this.state.estado };
-    console.log("estado", e.target.value);
     Estado.dados.estado = e.target.value;
     this.setState({
       estado: Estado,
@@ -242,24 +232,20 @@ export default class Registrar extends Component {
     }
 
     if (validarFormulario(Estado) && Estado.mensagemErro.length < 1) {
-      console.log("Estado valido:", Estado);
       AuthService.registrar(Estado.dados)
         .then((response) => {
-          console.log("funcionou", response);
           AuthService.login(Estado.dados.email, Estado.dados.senha).then(() => {
             this.props.history.push("/perfil");
             window.location.reload();
           });
         })
         .catch((error) => {
-          console.log("erro!", error);
           const resMessage =
             (error.response &&
               error.response.data &&
               error.response.data.message) ||
             error.message ||
             error.toString();
-          console.log("Erro", resMessage);
           Estado.mensagemErro.push(resMessage);
           this.setState({
             estado: Estado,
@@ -277,7 +263,6 @@ export default class Registrar extends Component {
       this.setState({
         estado: Estado,
       });
-      console.log("Estado inválido", Estado);
     }
   };
 

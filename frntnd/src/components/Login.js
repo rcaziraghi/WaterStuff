@@ -50,20 +50,14 @@ const Login = (props) => {
     // Evita comportamento default do navegador
     // ex. refresh/reload  por causa do submit do formulário
     e.preventDefault();
-
     setLoading(true);
-
-    // form.current.validateAll();
-
     if (!mensagemEmail && !mensagemSenha) {
       dispatch(login(email, senha))
         .then(() => {
-          console.log("Sucesso login!");
           props.history.push("/perfil");
           window.location.reload();
         })
         .catch(() => {
-          console.log("Erro login!", mensagem, estaLogado);
           setLoading(false);
         });
     } else {
@@ -73,7 +67,6 @@ const Login = (props) => {
   };
 
   if (estaLogado) {
-    console.log("Esta logado!");
     return <Redirect to="/perfil" />;
   }
 
@@ -95,7 +88,6 @@ const Login = (props) => {
               name="email"
               value={email}
               onChange={(e) => aoMudarEmail(e)}
-              // validations={[validarRequerido, validarEmail]}
             />
           </div>
           {mensagemEmail && (
@@ -112,7 +104,6 @@ const Login = (props) => {
               name="senha"
               value={senha}
               onChange={(e) => aoMudarSenha(e)}
-              // validations={[validarRequerido]}
             />
           </div>
           {mensagemSenha && (
@@ -141,7 +132,6 @@ const Login = (props) => {
               </div>
             </div>
           )}
-          {/* <button style={{ display: "none" }} ref={checkBtn} /> */}
         </form>
       </div>
     </div>
